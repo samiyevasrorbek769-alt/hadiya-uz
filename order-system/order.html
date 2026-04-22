@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Al-Harameen Watches</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="order-system/order.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+
+<body>
+
+    <div class="cart-icon-container" onclick="toggleCart()">
+        <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" width="22">
+        <span class="cart-count" id="cartCount">0</span>
+        <span id="cartTotalHeader" style="font-weight: bold; font-size: 14px; margin-left: 5px;">0 UZS</span>
+    </div>
+
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="logo.png" alt="Logo">
+            </div>
+            <ul class="nav-links">
+                <li><a href="#">Asosiy</a></li>
+                <li><a href="#productsGrid">Katalog</a></li>
+                <li><a href="#">Yetkazib berish</a></li>
+                <li><a href="#">Biz haqimizda</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="products-section">
+            <h2 style="text-align: center; margin: 40px 0;">Mahsulotlarimiz</h2>
+            <div id="productsGrid" class="products-grid">
+            </div>
+        </section>
+    </main>
+
+    <div id="orderModal" class="order-modal">
+        <div class="order-modal-content">
+            <span class="order-close" onclick="closeOrderModal()">&times;</span>
+
+            <div class="order-header">
+                <img id="modalImg" src="" alt="Product">
+                <div class="order-info">
+                    <h3 id="modalName" style="margin:0; font-size: 16px; font-weight: 600;">Mahsulot nomi</h3>
+
+                    <div class="order-qty-control">
+                        <button onclick="updateQty(-1)">−</button>
+                        <span id="orderQty" style="font-weight: bold; min-width: 20px; text-align: center;">1</span>
+                        <button onclick="updateQty(1)">+</button>
+                    </div>
+
+                    <p id="modalPriceDisplay" style="color: #666; margin: 0; font-size: 14px;">0 UZS</p>
+                </div>
+            </div>
+
+            <div class="order-form">
+                <input type="text" id="custName" placeholder="Ism-sharfingiz">
+
+                <div class="order-phone-box"
+                    style="display: flex; align-items: center; background: #f9f9f9; border: 1px solid #eee; border-radius: 12px; padding-left: 12px; margin: 8px 0;">
+                    <span style="font-size: 18px;">🇺🇿</span>
+                    <input type="text" id="custPhone" value="+998 " maxlength="19"
+                        style="border: none; background: transparent; padding: 12px; width: 100%; outline: none;">
+                </div>
+
+                <input type="text" id="custTg" placeholder="Telegram (Masalan: @username)">
+                <textarea id="custAddr" placeholder="Yetkazib berish manzili (Shahar, tuman, ko'cha)"></textarea>
+
+                <div
+                    style="display: flex; justify-content: space-between; align-items: center; margin: 15px 0; border-top: 1px dashed #ddd; padding-top: 15px;">
+                    <span style="color: #555;">Jami summa:</span>
+                    <span id="orderFinalPrice" style="font-weight: 800; font-size: 18px; color: #000;">0 UZS</span>
+                </div>
+
+                <button class="order-submit-btn" onclick="processOrder()">YUBORISH</button>
+            </div>
+        </div>
+    </div>
+
+    <footer style="text-align: center; padding: 20px; border-top: 1px solid #eee; margin-top: 40px;">
+        <p style="color: #888; font-size: 14px;">&copy; 2026 Al-Harameen. Created by Uz Global</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="order-system/order.js"></script>
+</body>
+
+</html>

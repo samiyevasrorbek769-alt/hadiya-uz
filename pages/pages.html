@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mahsulot Batafsil</title>
+    <link rel="stylesheet" href="pages.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="top-nav">
+            <a href="../homepage/index.html" class="back-btn">← Orqaga qaytish</a>
+        </div>
+
+        <div class="product-wrapper">
+            <div class="product-gallery">
+                <div class="main-image">
+                    <img id="mainImg" src="../../assets/loading.gif" alt="Yuklanmoqda...">
+                </div>
+                <div class="thumbnails" id="thumbContainer"></div>
+            </div>
+
+            <div class="product-info">
+                <h1 id="pName">Yuklanmoqda...</h1>
+                <div class="price-tag" id="pPrice">0 UZS</div>
+
+                <button class="order-btn" onclick="openOrderModal()">BUYURTMA BERISH</button>
+
+                <div class="description-box">
+                    <h3>Mahsulot haqida:</h3>
+                    <p id="pDesc"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="more-products-section">
+            <h2 class="section-title">Boshqa mahsulotlar</h2>
+            <div id="moreProductsGrid" class="more-grid"></div>
+        </div>
+    </div>
+
+    <script src="pages.js"></script>
+</body>
+
+</html>

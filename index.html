@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Al-Harameen Watches</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../order-system/order.css">
+
+    <link rel="stylesheet" href="order.css">
+</head>
+
+<body>
+
+    <div class="navbar">
+        <ul class="chap">
+            <li><a href="#home">Asosiy</a></li>
+            <li><a href="#price-container">Katalog</a></li>
+            <li><a href="#delivery-section">Yetkazib berish</a></li>
+        </ul>
+        <img src="logo.jpg.png" alt="Logo" class="logo">
+        <div class="burger-menu" onclick="toggleMobileMenu()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <ul class="ong">
+            <li><a href="#">Muddatli to'lov</a></li>
+            <li><a href="#">Afzalliklarimiz</a></li>
+            <li><a href="#video-reviews-section">Mijozlar fikri</a></li>
+        </ul>
+    </div>
+
+    <div class="home" id="home">
+        <h1 class="hometext"><a href="#">Al-Harameen ayollar soati: HA-6314 FGBL</a></h1>
+        <button class="main-btn"><a href="#">Batafsil</a></button>
+    </div>
+
+    <div class="product-section">
+        <div class="product-filter">
+            <a href="javascript:void(0)" class="filter-link active"
+                onclick="filterByCategory('all', this, event)">Barchasi</a>
+            <a href="javascript:void(0)" class="filter-link"
+                onclick="filterByCategory('Erkaklar soati', this, event)">ERKAKLAR SOATI</a>
+            <a href="javascript:void(0)" class="filter-link"
+                onclick="filterByCategory('Ayollar soati', this, event)">AYOLLAR SOATI</a>
+            <a href="javascript:void(0)" class="filter-link"
+                onclick="filterByCategory('Byudjet', this, event)">BYUDJET</a>
+            <a href="javascript:void(0)" class="filter-link"
+                onclick="filterByCategory('Premium', this, event)">PREMIUM</a>
+        </div>
+
+        <div class="price-container" id="price-container">
+            <div class="filter-left-group">
+                <div class="filter-dropdown">
+                    <button type="button" class="dropdown-btn" onclick="toggleDropdown(event)">
+                        Narx <span class="arrow">∨</span>
+                    </button>
+                    <div id="priceDropdown" class="dropdown-content">
+                        <input type="text" id="minPrice" placeholder="349 000" oninput="formatInput(this)">
+                        <span class="divider">—</span>
+                        <input type="text" id="maxPrice" placeholder="1 595 000" oninput="formatInput(this)">
+                        <button type="button" class="ok-btn" onclick="applyFilter()">OK</button>
+                    </div>
+                </div>
+                <p class="found-text">Найдено: <span id="found-count">0</span></p>
+            </div>
+
+            <div class="search-wrapper">
+                <input type="text" id="searchInput" placeholder="Soat qidirish..." oninput="searchProducts(this.value)">
+            </div>
+        </div>
+    </div>
+
+    <div id="product-list" class="product-grid"></div>
+
+    <div class="video-reviews-section" id="video-reviews-section">
+        <h1
+            style="text-align: center; color: #000; padding: 50px 0px; font-family: Arial, Helvetica; letter-spacing: 1px;">
+            MIJOZLARIMIZ FIKRI
+        </h1>
+        <div id="video-grid" class="video-grid">
+        </div>
+    </div>
+
+    <button class="main-btn" style="margin: 40px auto; display: block;" onclick="checkAdminAccess(event)">
+        Admin Panel
+    </button>
+
+    <div id="orderModal" class="order-modal">
+        <div class="order-modal-content">
+            <span class="order-close" onclick="closeOrderModal()">&times;</span>
+            <div class="order-header">
+                <img id="modalImg" src="" alt="Product">
+                <div class="order-info">
+                    <h3 id="modalName" style="margin:0; font-size: 16px;">Mahsulot nomi</h3>
+                    <div class="order-qty-control">
+                        <button onclick="updateQty(-1)">-</button>
+                        <span id="orderQty" style="font-weight: bold;">1</span>
+                        <button onclick="updateQty(1)">+</button>
+                    </div>
+                    <p id="modalPriceDisplay" style="color: #666; margin: 0;">0 UZS</p>
+                </div>
+            </div>
+            <div class="order-form">
+                <input type="text" id="custName" placeholder="Ism-sharfingiz">
+                <input type="text" id="custPhone" value="+998 " maxlength="14">
+                <input type="text" id="custTg" placeholder="Telegram (Masalan: @username)">
+                <textarea id="custAddr" placeholder="Yetkazib berish manzili"></textarea>
+                <div style="display: flex; justify-content: space-between; margin: 15px 0; font-weight: bold;">
+                    <span>Jami summa:</span>
+                    <span id="orderFinalPrice">0 UZS</span>
+                </div>
+                <button class="order-submit-btn" onclick="processOrder()">YUBORISH</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="cartOverlay" class="cart-overlay" onclick="toggleCartPanel()"></div>
+    <div id="cartPanel" class="cart-panel">
+        <div class="cart-panel-header">
+            <h3>Savatcha</h3>
+            <span class="close-cart" onclick="toggleCartPanel()">&times;</span>
+        </div>
+        <div id="cartItemList" class="cart-items-container">
+        </div>
+        <div class="cart-panel-footer">
+            <div class="total-row">
+                <span>Jami summa:</span>
+                <span id="cartPanelTotal">0 UZS</span>
+            </div>
+            <button class="checkout-btn" id="orderQtyWrapper" ni onclick="openOrderModalFromCart()">BUYURTMANI
+                RASMIYLASHTIRISH</button>
+        </div>
+    </div>
+
+    <div id="cartButton" class="floating-cart" onclick="toggleCartPanel()">
+        <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="Cart">
+        <div id="cartBadge" class="cart-badge">0</div>
+    </div>
+
+    <section id="delivery-section" class="delivery-section">
+        <div class="container">
+            <h1 class="delivery-main-title">Yetkazib berish xizmati (Доставка)</h1>
+
+            <div class="delivery-text-wrapper">
+                <p>Yetkazib berish xizmatimiz Namangan shahri bo'ylab,</p>
+                <p>YandexGo ilovasi orqali, 1-2 soatda amalga oshiriladi.</p>
+
+                <p class="delivery-spacer">Butun O'zbekiston bo'ylab esa <strong>EMU express</strong> pochta</p>
+                <p>orqali, pochta ofisigacha 1 yoki 2 ish kunida amalga</p>
+                <p>oshiriladi.</p>
+
+                <p class="delivery-spacer">Pochta xizmati pullik.</p>
+
+                <p class="delivery-footer-text">
+                    Buyurtma va yetkazib berish xizmati uchun to'lov <br>
+                    oldindan amalga oshiriladi.
+                </p>
+            </div>
+
+            <div class="delivery-footer-logos">
+                <img src="yandex_logo .png" alt="Yandex">
+                <img src="BTS_logo.jpg" alt="BTS">
+                <img src="emu.jpg" alt="EMU">
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer-section">
+        <div class="container footer-wrapper">
+            <div class="footer-info">
+                <h2 class="footer-title">MANZIL</h2>
+
+                <div class="footer-details">
+                    <p><strong>Manzilimiz:</strong> Namangan, Alisher Navoiy ko'chasi 42-uy</p>
+                    <p><strong>Mo'ljal:</strong> Tinchlik metro bekati (G'uncha)</p>
+                    <p>Do'konimiz metro chiqish joyining ro'parasidagi 9 qavatli bino tagida joylashgan.</p>
+                </div>
+
+                <div class="social-icons">
+                    <a href="https://t.me/asrorbek_dev0" class="icon-link telegram">
+                        <i class="fab fa-telegram-plane"><img src="telegram.png" alt=""></i>
+                    </a>
+                    <a href="https://www.instagram.com/asror.bek726" class="icon-link instagram">
+                        <i class="fab fa-instagram"><ion-icon name="logo-instagram"></ion-icon></i>
+                    </a>
+                    <a href="tel:+998917691530" class="icon-link phone">
+                        <i class="fas fa-phone-alt"><ion-icon name="call-outline"></ion-icon></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-map">
+                <iframe src="https://yandex.uz/map-widget/v1/?ll=69.219842%2C41.341451&z=16&pt=69.219842%2C41.341451"
+                    width="100%" height="450" frameborder="0" allowfullscreen="true"
+                    style="position:relative; border-radius: 20px;">
+                </iframe>
+            </div>
+        </div>
+    </footer>
+
+    <div class="made-on-container">
+        <a href="https://uzglobal2026.uz/" class="made-on-link">
+            <span>Created by</span>
+            <span class="t-letter">UG</span><span>Uz Global</span>
+        </a>
+    </div>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+    <script src="../order-system/order.js"></script>
+</body>
+
+</html>

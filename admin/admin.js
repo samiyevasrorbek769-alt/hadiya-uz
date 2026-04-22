@@ -373,4 +373,4 @@ async function filterByCategory(category, btnElement) {
 }
 
 function showLoading(s) { document.getElementById('loadingOverlay').style.display = s ? 'flex' : 'none'; }
-function logout() { localStorage.removeItem('isAdmin'); window.location.replace('../homepage/index.html'); }
+function logout() { localStorage.removeItem('isAdmin'); window.location.replace('../index.html'); }

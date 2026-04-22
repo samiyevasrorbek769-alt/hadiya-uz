@@ -110,5 +110,5 @@ function openOrderModal() {
 
     localStorage.setItem('direct_order', JSON.stringify(orderData));
     // Bosh sahifaga qaytamiz
-    window.location.href = '..//homepage/index.html';
+    window.location.href = '../index.html';
 }

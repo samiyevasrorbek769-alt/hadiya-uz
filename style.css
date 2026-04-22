@@ -1,4 +1,11 @@
 /* --- ASOSIY SOZLAMALAR --- */
+
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
 * {
     scroll-behavior: smooth;
     margin: 0;
@@ -717,10 +724,35 @@ body {
     color: white;
 }
 
+.burger-menu {
+    display: none;
+    /* Kompyuterda ko'rinmaydi */
+    cursor: pointer;
+    color: white;
+}
+
+.burger-menu ion-icon {
+    font-size: 35px;
+    /* Icon kattaligi */
+}
+
 /* --- MOBIL MOSLASHUV (768px gacha) --- */
 @media (max-width: 768px) {
 
-    /* 1. NAVBAR: Kategoriyalarni yashirish va Logoni surish */
+    /* Navbar: Blur va Scrollni tuzatish */
+    .navbar {
+        justify-content: space-between;
+        padding: 0 15px;
+        height: 70px;
+        background-color: rgba(0, 0, 0, 0.85);
+        /* Biroz shaffof qora */
+        backdrop-filter: blur(10px);
+        /* Xiralashish (blur) effekti */
+        -webkit-backdrop-filter: blur(10px);
+        overflow: hidden;
+        /* Scroll chiqib ketishini oldini oladi */
+    }
+
     .navbar {
         justify-content: space-between;
         /* Logo chapga, Menu o'ngga */
@@ -730,92 +762,161 @@ body {
 
     .navbar ul {
         display: none;
-        /* Kategoriyalar o'chadi */
     }
 
     .navbar img {
         margin: 0;
-        /* Logoni o'rtadan chapga qaytaramiz */
         height: 7vh;
     }
 
-    /* Burger Menu Icon (Uchta chiziq uchun joy) */
-    /* Agar HTML-da icon qo'shsang, uni ko'rsatamiz */
     .burger-menu {
         display: block;
         font-size: 28px;
         color: white;
         cursor: pointer;
     }
+}
 
-    /* 2. HOME SECTION: Balandlikni moslash */
+@media (max-width: 768px) {
     .home {
-        height: 70vh;
-        padding-top: 250px;
+        height: 85vh;
+        /* Soat rasmi uzunroq ko'rinishi uchun */
+        padding-top: 100px;
     }
 
     .hometext {
-        font-size: 30px;
+        color: white;
+        /* Sariqdan oqqa o'zgartirdik */
+        font-size: 26px;
+        padding: 0 20px;
+        text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8);
     }
 
-    /* 3. PRODUCT GRID: 1 qatorda 2 ta mahsulot */
-    .product-grid {
-        grid-template-columns: repeat(2, 1fr);
-        /* 2 ta ustun */
-        gap: 15px;
-        padding: 0 15px 30px;
+    .hometext a {
+        text-decoration: none;
+        /* Tagidagi chiziqni yo'qotish */
     }
 
-    .product-image {
-        height: 220px;
-        /* Mobil uchun rasm balandligi */
-        border-radius: 12px;
-    }
-
-    .product-name {
+    .main-btn {
+        width: 160px;
+        /* Eni kichikroq */
+        height: 50px;
+        background-color: #FFA500;
+        /* Yorqin orange */
+        color: white;
         font-size: 14px;
-        min-height: 40px;
+        margin-top: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    /* Katalog linklari */
+    .product-filter {
+        gap: 10px;
+        padding: 0 10px;
     }
 
-    /* 4. TUGMALARNI USTUN QILISH */
+    .filter-link {
+        font-size: 11px;
+        /* 4 tasi sig'adigan darajada kichik */
+        padding-bottom: 5px;
+    }
+
+    /* Price va Search qismi */
+    .price-container {
+        width: 50%;
+        border: none;
+        padding: 10px 5px;
+        align-items: center;
+    }
+
+    /* Narx tugmasini faqat so'z va belgi qoldiramiz */
+    .dropdown-btn {
+        border: none;
+        background: none;
+        padding: 0;
+        font-weight: normal;
+    }
+
+    .dropdown-btn span:last-child {
+        display: none;
+    }
+
+    /* Ortiqcha belgilarni yashirish */
+
+    /* Search Icon uchun joy */
+    .search-wrapper {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    /* Search inputni faqat ochilganda ko'rsatish uchun (JS kerak bo'ladi) */
+    .search-wrapper input {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: white;
+    }
+}
+
+@media (max-width: 768px) {
+
+    /* 3. PRODUCT GRID: 1 qatorda ANIQ 2 ta mahsulot */
+    .product-grid {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        /* 1 qatorda 2 ta teng ustun */
+        gap: 15px !important;
+        /* Soatlar orasidagi masofa */
+        padding: 0 10px 30px !important;
+    }
+
+    /* Rasm kvadrat shaklida qoladi */
+    .product-image {
+        height: auto;
+        aspect-ratio: 1 / 1;
+        /* Kvadrat */
+        border-radius: 15px;
+    }
+
+    /* Ismlar juda katta bo'lib ketmasligi uchun */
+    .product-name {
+        font-size: 13px;
+        line-height: 1.2;
+        margin-top: 10px;
+    }
+
     .product-buttons {
         flex-direction: column;
-        /* Ustun shakli */
-        gap: 8px;
+        gap: 10px;
     }
 
-    .btn-more,
+    .btn-more {
+        height: 45px;
+        /* Biroz kattaroq */
+        font-size: 14px;
+    }
+
     .btn-order {
-        width: 100%;
-        padding: 10px;
-        font-size: 13px;
+        height: 65px;
+        /* Batafsildan 1.5 baravar baland */
+        background-color: #f2f2f2;
     }
+}
 
-    /* 5. YOUTUBE VIDEOLAR: Ustun shaklida 1 tadan */
+@media (max-width: 768px) {
     .video-grid {
         grid-template-columns: 1fr;
         /* 1 ta ustun */
         padding: 20px;
     }
 
-    /* 6. DELIVERY SECTION: Matnlarni kichraytirish */
-    .delivery-main-title {
-        font-size: 32px;
-    }
-
-    .delivery-text-wrapper p {
-        font-size: 16px;
-    }
-
-    .delivery-footer-logos {
-        gap: 30px;
-    }
-
-    .delivery-footer-logos img {
-        height: 80px;
-    }
-
-    /* 7. FOOTER: Flex-direction Column */
     .footer-wrapper {
         flex-direction: column;
         /* Tepada matn, pastda karta */

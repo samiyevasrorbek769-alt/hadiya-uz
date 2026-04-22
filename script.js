@@ -49,7 +49,7 @@ function displayProducts(products, page = 1) {
                     <h3 class="product-name">${p.name}</h3>
                     <p class="product-price">${Number(p.price).toLocaleString()} UZS</p>
                     <div class="product-buttons">
-                        <button class="btn-more" onclick="window.location.href='../pages/pages.html?id=${p.id}'">BATAFSIL</button>
+                        <button class="btn-more" onclick="window.location.href='pages/pages.html?id=${p.id}'">BATAFSIL</button>
                         <button class="btn-order" onclick="addToCart(${p.id})">BUYURTMA BERISH</button>
                     </div>
                 </div>
@@ -239,7 +239,7 @@ function checkAdminAccess(event) {
     event.preventDefault();
     const password = prompt("Admin parolini kiriting:");
     if (password === "1234") {
-        window.location.href = "../admin/admin.html";
+        window.location.href = "admin/admin.html";
     } else {
         alert("Parol noto'g'ri!");
     }

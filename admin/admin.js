@@ -414,7 +414,7 @@ async function saveHeroBanner() {
             .upsert([{
                 id: 1, // Doim 1-idli bannerni yangilaydi
                 name: name,
-                price: price,
+                price: String(price),
                 description: desc,
                 images: uploadedUrls
             }]);

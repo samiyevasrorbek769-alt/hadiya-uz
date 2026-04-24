@@ -386,7 +386,7 @@ function toggleSearch() {
 
 // 2. Qidiruv mantiqi (Real-vaqtda qidirish)
 function searchProducts() {
-    const term = document.getElementById('searchnavInput').value.toLowerCase();
+    const term = document.getElementById('searchInput').value.toLowerCase();
 
     // Diqqat: 'allProducts' - bu sening Supabase'dan kelgan hamma mahsulotlaring massivi bo'lishi kerak
     // Agar massiving boshqa nomda bo'lsa, nomini o'zgartirib qo'y.

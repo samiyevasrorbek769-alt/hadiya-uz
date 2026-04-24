@@ -949,6 +949,7 @@ body {
         position: relative;
         /* Ichidagi dropdownlar uchun tayanch */
         border: none;
+        margin-left: -18px;
     }
 
     /* Narx tugmasi: Chap tomonga tekislash */

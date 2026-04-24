@@ -419,32 +419,39 @@ function toggleMobileMenu() {
 }
 
 async function loadMobileHero() {
-    // Supabase'dan eng oxirgi banner ma'lumotini olish
-    const { data, error } = await _supabase
-        .from('hero_product') //
-        .select('*')
-        .order('created_at', { ascending: false })
-        .limit(1)
-        .single();
+    try {
+        // Supabase'dan eng oxirgi banner ma'lumotini olish
+        const { data, error } = await _supabase
+            .from('hero_product')
+            .select('*')
+            .order('created_at', { ascending: false })
+            .limit(1)
+            .maybeSingle(); // Katta harfga e'tibor bering: maybeSingle
 
-    if (error || !data) {
-        console.error("Mobil banner yuklanmadi:", error?.message);
-        return;
-    }
+        if (error) throw error;
 
-    const mobileHeroContainer = document.getElementById('hero-mobile');
-    if (mobileHeroContainer) {
-        // Faqat nomi, rasmi va batafsil tugmasi
-        mobileHeroContainer.innerHTML = `
-            <div class="home" style="background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('${data.image_url}') center/cover no-repeat;">
-                <h1 class="hometext">${data.name}</h1>
-                <button class="home-btn" onclick="window.location.href='pages/pages.html?id=${data.id}&type=hero'">
-                    BATAFSIL
-                </button>
-            </div>
-        `;
+        if (data) {
+            const mobileHeroContainer = document.getElementById('hero-mobile');
+            if (mobileHeroContainer) {
+                // Rasmni massivning birinchi elementidan olamiz
+                const heroImageUrl = (data.images && data.images.length > 0)
+                    ? data.images[0]
+                    : (data.image_url || ''); // Eskisini ham tekshirib qo'yamiz
+
+                mobileHeroContainer.innerHTML = `
+                    <div class="home" style="background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('${heroImageUrl}') center/cover no-repeat;">
+                        <h1 class="hometext">${data.name}</h1>
+                        <button class="home-btn" onclick="window.location.href='pages/pages.html?id=${data.id}&type=hero'">
+                            BATAFSIL
+                        </button>
+                    </div>
+                `;
+            }
+        }
+    } catch (err) {
+        console.error("Mobil banner yuklanmadi:", err.message);
     }
 }
 
-// Sahifa yuklanganda faqat mobil banner yuklanadi
+// Sahifa yuklanganda ishga tushirish
 document.addEventListener('DOMContentLoaded', loadMobileHero);

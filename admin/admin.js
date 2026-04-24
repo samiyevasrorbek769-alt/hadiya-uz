@@ -372,5 +372,65 @@ async function filterByCategory(category, btnElement) {
     }
 }
 
+// --- ASOSIY BANNER (HOME) BOSHQARUVI ---
+async function saveHeroBanner() {
+    const name = document.getElementById('hName').value;
+    const price = document.getElementById('hPrice').value;
+    const desc = document.getElementById('hDesc').value;
+    const fileInput = document.getElementById('hImgFile');
+    const files = fileInput.files;
+
+    if (!name || files.length === 0) {
+        alert("Iltimos, model nomi va kamida bitta rasm tanlang!");
+        return;
+    }
+
+    if (typeof showLoading === "function") showLoading(true);
+
+    try {
+        const uploadedUrls = [];
+
+        // Tanlangan rasmlarni birma-bir yuklash
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const fileName = `hero_${Date.now()}_${i}`;
+
+            const { error: upErr } = await _supabase.storage
+                .from('product-images')
+                .upload(fileName, file);
+
+            if (upErr) throw upErr;
+
+            const { data: urlData } = _supabase.storage
+                .from('product-images')
+                .getPublicUrl(fileName);
+
+            uploadedUrls.push(urlData.publicUrl);
+        }
+
+        // Bazaga saqlash (images: uploadedUrls massivini yuboradi)
+        const { error: dbErr } = await _supabase
+            .from('hero_product')
+            .upsert([{
+                id: 1, // Doim 1-idli bannerni yangilaydi
+                name: name,
+                price: price,
+                description: desc,
+                images: uploadedUrls
+            }]);
+
+        if (dbErr) throw dbErr;
+
+        alert("Ko'p rasmli banner muvaffaqiyatli yangilandi!");
+        location.reload();
+
+    } catch (err) {
+        console.error(err);
+        alert("Xatolik: " + err.message);
+    } finally {
+        if (typeof showLoading === "function") showLoading(false);
+    }
+}
+
 function showLoading(s) { document.getElementById('loadingOverlay').style.display = s ? 'flex' : 'none'; }
 function logout() { localStorage.removeItem('isAdmin'); window.location.replace('../index.html'); }

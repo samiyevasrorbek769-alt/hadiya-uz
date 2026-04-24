@@ -7,7 +7,7 @@
     <title>Al-Harameen Watches</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="../order-system/order.css">
+    <link rel="stylesheet" href="order-system/order.css">
 
     <link rel="stylesheet" href="order-system/order.css">
 </head>
@@ -21,9 +21,45 @@
             <li><a href="#delivery-section">Yetkazib berish</a></li>
         </ul>
         <img src="logo.jpg.png" alt="Logo" class="logo">
-        <div class="burger-menu" onclick="toggleMobileMenu()">
-            <i class="fas fa-bars"><ion-icon name="menu-outline"></ion-icon></i>
+
+        <div class="nav-right-group">
+            <div class="search-container" id="searchContainer">
+                <input type="text" id="searchnavInput" class="searchnavinput" placeholder="Mahsulot qidirish..."
+                    oninput="searchProducts()">
+                <button class="search-btn" id="search-Btn" onclick="toggleSearch()">
+                    <i class="fas fa-search"><ion-icon name="search"></ion-icon></i>
+                </button>
+            </div>
+
+            <div class="burger-menu" onclick="toggleMobileMenu()">
+                <ion-icon name="menu-outline"></ion-icon>
+            </div>
         </div>
+
+        <div id="mobileSidebar" class="mobile-sidebar">
+            <div class="sidebar-header">
+                <div class="close-btn" onclick="toggleMobileMenu()">
+                    <ion-icon name="close-outline"></ion-icon>
+                </div>
+            </div>
+
+            <ul class="sidebar-links">
+                <li><a href="#hero-mobile" onclick="toggleMobileMenu()">Asosiy</a></li>
+                <li><a href="#price-container" onclick="toggleMobileMenu()">Katalog</a></li>
+                <li><a href="#delivery-section" onclick="toggleMobileMenu()">Yetkazib berish</a></li>
+                <li><a href="#video-reviews-section" onclick="toggleMobileMenu()">Mijozlar Fikri</a></li>
+                <li><a href="#footer-section" onclick="toggleMobileMenu()">Aloqa</a></li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <a href="admin/admin.html" class="admin-login-btn">
+                    <ion-icon name="person-circle-outline"></ion-icon>
+                    Admin Panel
+                </a>
+            </div>
+        </div>
+
+        <div id="overlay" class="menu-overlay" onclick="toggleMobileMenu()"></div>
         <ul class="ong">
             <li><a href="#">Muddatli to'lov</a></li>
             <li><a href="#">Afzalliklarimiz</a></li>
@@ -31,10 +67,19 @@
         </ul>
     </div>
 
-    <div class="home" id="home">
-        <h1 class="hometext"><a href="#">Al-Harameen ayollar soati: HA-6314 FGBL</a></h1>
-        <button class="main-btn"><a href="#">Batafsil</a></button>
+    <div class="homedesktop" id="homedesktop">
+        <div class="hero-infodesktop">
+            <h1 class="hometextdesktop">
+                <a href="#" id="hero-namedesktop">HA-6314 FGBL</a>
+            </h1>
+            <p id="hero-pricedesktop" style="color: #FFD700; font-size: 24px; font-weight: bold;"></p>
+
+            <button class="home-btndesktop" id="hero-detail-btndesktop">Batafsil</button>
+        </div>
     </div>
+
+    <section id="hero-mobile" class="hero-mobile">
+    </section>
 
     <div class="product-section">
         <div class="product-filter">
@@ -57,16 +102,19 @@
                         Narx <span class="arrow">∨</span>
                     </button>
                     <div id="priceDropdown" class="dropdown-content">
-                        <input type="text" id="minPrice" placeholder="349 000" oninput="formatInput(this)">
+                        <input type="text" class="" id="minPrice" placeholder="349 000" oninput="formatInput(this)">
                         <span class="divider">—</span>
                         <input type="text" id="maxPrice" placeholder="1 595 000" oninput="formatInput(this)">
                         <button type="button" class="ok-btn" onclick="applyFilter()">OK</button>
                     </div>
                 </div>
-                <p class="found-text">Найдено: <span id="found-count">0</span></p>
+                <p class="found-text"> Topildi: <span id="found-count">0</span></p>
             </div>
 
             <div class="search-wrapper">
+                <div class="mobile-search-icon" onclick="toggleSearchInput()">
+                    <ion-icon name="search-circle-outline"></ion-icon>
+                </div>
                 <input type="text" id="searchInput" placeholder="Soat qidirish..." oninput="searchProducts(this.value)">
             </div>
         </div>
@@ -83,8 +131,8 @@
         </div>
     </div>
 
-    <button class="main-btn" style="margin: 40px auto; display: block;" onclick="checkAdminAccess(event)">
-        Admin Panel
+    <button class="main-btn" onclick="checkAdminAccess(event)">
+        <ion-icon name="person-circle-outline"></ion-icon> Admin Panel
     </button>
 
     <div id="orderModal" class="order-modal">
@@ -167,7 +215,7 @@
         </div>
     </section>
 
-    <footer class="footer-section">
+    <footer id="footer-section" class="footer-section">
         <div class="container footer-wrapper">
             <div class="footer-info">
                 <h2 class="footer-title">MANZIL</h2>
@@ -207,12 +255,12 @@
         </a>
     </div>
 
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>
     <script src="order-system/order.js"></script>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 
 </html>

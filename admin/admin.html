@@ -22,10 +22,10 @@
 
         <div class="admin-tabs">
             <button class="tab-btn active" onclick="openTab(event, 'products-tab')">Mahsulotlar</button>
+            <button class="tab-btn" onclick="openTab(event, 'hero-tab')">Asosiy Banner (Home)</button>
             <button class="tab-btn" onclick="openTab(event, 'reviews-tab')">Video Sharhlar</button>
             <button class="tab-btn" onclick="openTab(event, 'orders-tab')" id="orders-tab-btn">
-                Buyurtmalar <span id="new-orders-count"
-                    style="background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 10px; display: none;">0</span>
+                Buyurtmalar <span id="new-orders-count" style="display: none;">0</span>
             </button>
         </div>
 
@@ -35,8 +35,7 @@
                 <div class="admin-form">
                     <input type="hidden" id="editId">
                     <div class="form-group">
-                        <input type="text" id="pName" placeholder="Mahsulot nomi (masalan: Al-Harameen HA-6314)"
-                            required>
+                        <input type="text" id="pName" placeholder="Mahsulot nomi" required>
                     </div>
                     <div class="form-row">
                         <input type="number" id="pPrice" placeholder="Narxi (UZS)" required>
@@ -50,95 +49,89 @@
                     </div>
                     <div class="form-group">
                         <label class="file-label">
-                            <i class="fas fa-cloud-upload-alt"></i> Rasmlarni tanlang (Bir nechta)
-                            <input type="file" id="pImgFiles" accept="image/*" multiple onchange="previewImages()">
+                            <i class="fas fa-cloud-upload-alt"></i> Rasmlarni tanlang
+                            <input type="file" id="pImgFiles" accept="image/*" multiple
+                                onchange="previewImages('image-preview', 'pImgFiles')">
                         </label>
                         <div id="image-preview" class="preview-box"></div>
                     </div>
                     <textarea id="pDesc" placeholder="Mahsulot haqida batafsil ma'lumot..." rows="4"></textarea>
-
-                    <div style="display: flex; gap: 10px;">
-                        <button class="add-btn" id="uploadBtn" onclick="saveProduct()" style="flex: 2;">
-                            <i class="fas fa-save"></i> MAHSULOTNI SAQLASH
-                        </button>
-                        <button id="cancelEditBtn" onclick="resetForm()"
-                            style="display:none; flex: 1; background: #444; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold;">
-                            BEKOR QILISH
-                        </button>
-                    </div>
+                    <button class="add-btn" id="uploadBtn" onclick="saveProduct()">
+                        <i class="fas fa-save"></i> MAHSULOTNI SAQLASH
+                    </button>
                 </div>
             </div>
-
-            <div class="filter-section" style="margin: 20px 0; display: flex; gap: 10px; flex-wrap: wrap;">
-                <button class="tab-btn active" onclick="loadProducts()">Hammasi</button>
-                <button class="tab-btn" onclick="filterByCategory('Erkaklar soati', this)">Erkaklar</button>
-                <button class="tab-btn" onclick="filterByCategory('Ayollar soati', this)">Ayollar</button>
-                <button class="tab-btn" onclick="filterByCategory('Byudjet', this)">Byudjet</button>
-                <button class="tab-btn" onclick="filterByCategory('Premium', this)">Premium</button>
-            </div>
-
             <div class="list-section">
-                <div class="search-bar">
-                    <i class="fas fa-search"></i>
-                    <input type="text" id="searchInp" placeholder="Mahsulotlarni qidirish..."
-                        oninput="filterProducts()">
-                </div>
                 <h3>Mavjud mahsulotlar (<span id="pCount">0</span>)</h3>
-                <div id="admin-product-list" class="admin-grid">
+                <div id="admin-product-list" class="admin-grid"></div>
+            </div>
+        </div>
+
+        <div id="hero-tab" class="tab-content">
+            <div class="admin-card">
+                <h3><i class="fas fa-mobile-alt"></i> Mobil Banner Sozlamalari</h3>
+                <div class="admin-form">
+                    <div class="form-row">
+                        <input type="text" id="hName" placeholder="Model nomi (Maks: 15 belgi)" maxlength="15">
+
+                        <input type="number" id="hPrice" placeholder="Narxi (UZS)">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="file-label">
+                            <i class="fas fa-camera"></i> Banner rasmini tanlang
+                            <input type="file" id="hImgFile" accept="image/*" multiple
+                                onchange="previewImages('hero-preview', 'hImgFile')">
+                        </label>
+                        <div id="hero-preview" class="preview-box"></div>
+                    </div>
+
+                    <textarea id="hDesc" placeholder="Batafsil sahifa uchun ma'lumot yozing..."></textarea>
+
+                    <button class="add-btn" onclick="saveHeroBanner()">
+                        <i class="fas fa-sync-alt"></i> MOBIL BANNERNI YANGILASH
+                    </button>
                 </div>
             </div>
         </div>
 
         <div id="reviews-tab" class="tab-content">
             <div class="admin-card">
-                <h3><i class="fas fa-video"></i> Yangi video sharh qo'shish</h3>
+                <h3><i class="fas fa-video"></i> Video sharh qo'shish</h3>
                 <div class="admin-form">
-                    <input type="text" id="vTitle" placeholder="Video sarlavhasi (Mijozimiz fikri)">
-                    <input type="text" id="vUrl" placeholder="YouTube Video Link (https://youtu.be/...)">
-                    <button class="add-btn" onclick="saveReview()">
-                        <i class="fas fa-check"></i> SHARHNI QO'SHISH
-                    </button>
+                    <input type="text" id="vTitle" placeholder="Video sarlavhasi">
+                    <input type="text" id="vUrl" placeholder="YouTube Link (masalan: https://youtu.be/...)">
+                    <button class="add-btn" onclick="saveReview()">VIDEO QO'SHISH</button>
                 </div>
             </div>
-
-            <div class="list-section">
-                <h3>Barcha videolar</h3>
-                <div id="admin-review-list" class="admin-grid"></div>
-            </div>
+            <div id="admin-review-list" class="admin-grid"></div>
         </div>
-    </div>
 
-    <div id="loadingOverlay" class="loading-overlay">
-        <div class="spinner"></div>
-        <p>Iltimos, kuting...</p>
-    </div>
-    <div id="orders-tab" class="tab-content">
-        <div class="list-section">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h3><i class="fas fa-shopping-cart"></i> Kelib tushgan buyurtmalar</h3>
-                <button onclick="fetchOrders()" class="add-btn" style="width: auto; padding: 10px 20px;">
-                    <i class="fas fa-sync-alt"></i> Yangilash
-                </button>
-            </div>
-
+        <div id="orders-tab" class="tab-content">
             <div class="table-responsive">
                 <table class="orders-table">
                     <thead>
                         <tr>
                             <th>Sana</th>
                             <th>Mijoz</th>
-                            <th>Mahsulotlar</th>
+                            <th>Mahsulot</th>
                             <th>Jami</th>
                             <th>Status</th>
                             <th>Amal</th>
                         </tr>
                     </thead>
-                    <tbody id="orders-list">
-                    </tbody>
+                    <tbody id="orders-list"></tbody>
                 </table>
             </div>
         </div>
+
     </div>
+
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <p>Iltimos, kuting...</p>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="admin.js"></script>
 </body>

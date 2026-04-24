@@ -93,8 +93,72 @@ async function loadMoreProducts() {
     }
 }
 
-// Sahifa ochilganda ishga tushirish
-getProductDetails();
+async function getProductDetails() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('id');
+    const productType = urlParams.get('type'); // 'hero' yoki null
+
+    if (!productId) return;
+
+    // Jadvalni aniqlash (hero bo'lsa hero_product, aks holda products)
+    const targetTable = (productType === 'hero') ? 'hero_product' : 'products';
+
+    try {
+        const { data: product, error } = await _supabase
+            .from(targetTable)
+            .select('*')
+            .eq('id', productId)
+            .maybeSingle(); // .single() o'rniga .maybeSingle() xatolarni kamaytiradi
+
+        if (error) throw error;
+
+        if (!product) {
+            document.getElementById('pName').innerText = "Mahsulot topilmadi";
+            return;
+        }
+
+        // Ma'lumotlarni joylash
+        document.getElementById('pName').innerText = product.name;
+        document.getElementById('pPrice').innerText = Number(product.price).toLocaleString() + " UZS";
+        document.getElementById('pDesc').innerText = product.description || "Tavsif yo'q";
+
+        // ... (tepadagi kodlar)
+        const mainImg = document.getElementById('mainImg');
+        const thumbContainer = document.getElementById('thumbContainer');
+
+        // Rasmlar borligini tekshiramiz
+        if (product.images && product.images.length > 0) {
+            // 1. Asosiy rasmga massivning birinchi elementini qo'yamiz
+            mainImg.src = product.images[0];
+
+            // 2. Galereyani tozalab, qaytadan rasmchalarni chiqaramiz
+            thumbContainer.innerHTML = '';
+            product.images.forEach((imgUrl, index) => {
+                const img = document.createElement('img');
+                img.src = imgUrl;
+                if (index === 0) img.classList.add('active');
+
+                img.onclick = function () {
+                    mainImg.src = imgUrl;
+                    document.querySelectorAll('.thumbnails img').forEach(t => t.classList.remove('active'));
+                    img.classList.add('active');
+                };
+                thumbContainer.appendChild(img);
+            });
+        } else if (product.image_url) {
+            // Agar mabodo bazada hali ham eski 'image_url' ustunida rasm bo'lsa
+            mainImg.src = product.image_url;
+        }
+        
+        loadMoreProducts();
+
+    } catch (err) {
+        console.error("Xatolik:", err.message);
+    }
+}
+
+// Sahifa yuklanganda funksiyani chaqirishni unutma
+window.onload = getProductDetails;
 
 // 3. BUYURTMA BERISH (TUZATILGAN QISM)
 function openOrderModal() {

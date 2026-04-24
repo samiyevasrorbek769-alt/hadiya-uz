@@ -1,3 +1,4 @@
+// Supabase sozlamalari
 const supabaseUrl = 'https://qamscdwpyoxmkkyfolup.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFhbXNjZHdweW94bWtreWZvbHVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5NzI2MDQsImV4cCI6MjA5MTU0ODYwNH0.LICrT7c33XpbiazpztBtbOQZq09-zV1qm9H91i9w_pM';
 const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
@@ -55,38 +56,102 @@ function displayProducts(products, page = 1) {
                 </div>
             </div>`;
     });
+
     // Agar pagination divi bo'lsa uni render qiladi
     const paginationDiv = document.getElementById('pagination');
     if (paginationDiv) renderPagination(products.length);
 }
 
-// 3. QIDIRUV VA FILTRLAR
+// 3. QIDIRUV VA MOBIL SEARCH
+// Qidiruv paneli ochish/yopish
+function toggleSearchInput() {
+    const input = document.getElementById("searchInput");
+    input.classList.toggle("show-search");
+
+    if (input.classList.contains("show-search")) {
+        input.focus(); // Ochilganda avtomatik yozishga tayyor turadi
+    }
+}
+
+// Qidiruv mantiqi
 function searchProducts(query) {
+    if (!window.allProducts) return; // Ma'lumotlar bo'lmasa to'xtatadi
+
     window.filteredProducts = window.allProducts.filter(p =>
         p.name.toLowerCase().includes(query.toLowerCase())
     );
+
     currentPage = 1;
     displayProducts(window.filteredProducts, 1);
 }
 
-// event argumenti qo'shildi
-function filterByCategory(category, btn, event) {
-    // Sahifa tepaga sakrab ketishini bloklaymiz
-    if (event) {
-        event.preventDefault();
+// Narx dropdowni
+function toggleDropdown(event) {
+    if (event) event.stopPropagation();
+
+    const pricePanel = document.getElementById("priceDropdown");
+    const searchInp = document.getElementById("searchInput");
+
+    // 1. Agar Search ochiq bo'lsa, uni yopamiz
+    if (searchInp.classList.contains("show-search")) {
+        searchInp.classList.remove("show-search");
+        searchInp.style.display = "none";
     }
 
-    // Klasslarni almashtirish
+    // 2. Narx panelini ochish/yopish (Toggle)
+    pricePanel.classList.toggle("show");
+
+    if (pricePanel.classList.contains("show")) {
+        pricePanel.style.display = "flex";
+        pricePanel.style.top = "60px"; // O'zingga moslab to'g'irlab olasan
+    } else {
+        pricePanel.style.display = "none";
+    }
+}
+
+// Search paneli
+function toggleSearchInput() {
+    const searchInp = document.getElementById("searchInput");
+    const pricePanel = document.getElementById("priceDropdown");
+
+    // 1. Agar Narx dropdowni ochiq bo'lsa, uni yopamiz
+    if (pricePanel.classList.contains("show")) {
+        pricePanel.classList.remove("show");
+        pricePanel.style.display = "none";
+    }
+
+    // 2. Search panelini ochish/yopish (Toggle)
+    searchInp.classList.toggle("show-search");
+
+    if (searchInp.classList.contains("show-search")) {
+        searchInp.style.display = "block";
+        searchInp.style.top = "60px"; // Bu ham tugma ostida chiqadi
+        searchInp.focus();
+    } else {
+        searchInp.style.display = "none";
+    }
+}
+
+window.onclick = function (event) {
+    if (!event.target.closest('.price-container')) {
+        document.getElementById("priceDropdown").classList.remove("show");
+        document.getElementById("priceDropdown").style.display = "none";
+        document.getElementById("searchInput").classList.remove("show-search");
+        document.getElementById("searchInput").style.display = "none";
+    }
+}
+
+// 4. FILTRLAR (Kategoriya va Narx)
+function filterByCategory(category, btn, event) {
+    if (event) event.preventDefault();
     document.querySelectorAll('.filter-link').forEach(link => link.classList.remove('active'));
     btn.classList.add('active');
 
-    // Filtrlash mantiqi
     if (category === 'all') {
         window.filteredProducts = window.allProducts;
     } else {
         window.filteredProducts = window.allProducts.filter(p => p.category === category);
     }
-
     currentPage = 1;
     displayProducts(window.filteredProducts, 1);
 }
@@ -100,7 +165,8 @@ function applyFilter() {
     displayProducts(window.filteredProducts, 1);
     document.getElementById('priceDropdown').classList.remove('show');
 }
-// 4. SHARHLARNI SUPABASE'DAN OLISH (YouTube 1-da-2 qilib)
+
+// 5. SHARHLARNI YUKLASH
 async function fetchReviews() {
     try {
         const { data: reviews, error } = await _supabase.from('reviews').select('*').order('created_at', { ascending: false });
@@ -111,10 +177,7 @@ async function fetchReviews() {
 
         container.innerHTML = '';
         reviews.forEach(rv => {
-            // Video linkidan ID ni ajratib olish (agar u yerda to'liq link saqlanib qolgan bo'lsa)
             let videoId = rv.video_url;
-
-            // Agar bazada to'liq link bo'lsa, uni ID ga aylantiramiz
             if (videoId.includes('v=')) {
                 videoId = videoId.split('v=')[1].split('&')[0];
             } else if (videoId.includes('youtu.be/')) {
@@ -126,14 +189,10 @@ async function fetchReviews() {
                     <div class="video-wrapper">
                         <iframe 
                             src="https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                            allowfullscreen>
+                            frameborder="0" allowfullscreen>
                         </iframe>
                     </div>
-                    <p style="color:white; text-align:center; margin-top:10px; font-weight:600; font-family: sans-serif;">
-                        ${rv.title || 'Mijozimiz fikri'}
-                    </p>
+                    <p style="color:white; text-align:center; margin-top:10px; font-weight:600;">${rv.title || 'Mijozimiz fikri'}</p>
                 </div>`;
         });
     } catch (err) {
@@ -141,7 +200,7 @@ async function fetchReviews() {
     }
 }
 
-// 5. SAVATCHA MANTIQI
+// 6. SAVATCHA FUNKSIYALARI
 function addToCart(id) {
     const product = window.allProducts.find(p => p.id == id);
     const existingItem = cart.find(item => item.id == id);
@@ -151,7 +210,6 @@ function addToCart(id) {
     } else {
         cart.push({ ...product, qty: 1 });
     }
-
     saveCart();
     renderCartItems();
     toggleCartPanel(true);
@@ -181,7 +239,6 @@ function renderCartItems() {
 
     container.innerHTML = '';
     let total = 0;
-
     if (cart.length === 0) {
         container.innerHTML = '<p style="text-align:center; margin-top:50px; color:#888;">Savatchangiz bo\'sh</p>';
     }
@@ -189,16 +246,15 @@ function renderCartItems() {
     cart.forEach((item, index) => {
         total += item.price * item.qty;
         const itemImg = (item.images && item.images.length > 0) ? item.images[0] : 'https://via.placeholder.com/60';
-
         container.innerHTML += `
             <div class="cart-item">
                 <img src="${itemImg}" style="width:60px; height:60px; object-fit:cover; border-radius:8px;">
                 <div style="flex:1; padding-left:10px;">
                     <h4 style="font-size:14px; margin:0;">${item.name}</h4>
                     <div class="order-qty-control" style="gap:8px; margin-top:5px;">
-                        <button onclick="changeQty(${index}, -1)" style="width:25px; height:25px; font-size:16px;">-</button>
-                        <span style="font-weight:bold;">${item.qty}</span>
-                        <button onclick="changeQty(${index}, 1)" style="width:25px; height:25px; font-size:16px;">+</button>
+                        <button onclick="changeQty(${index}, -1)">-</button>
+                        <span>${item.qty}</span>
+                        <button onclick="changeQty(${index}, 1)">+</button>
                     </div>
                 </div>
                 <div style="text-align:right">
@@ -207,7 +263,6 @@ function renderCartItems() {
                 </div>
             </div>`;
     });
-
     if (totalDisplay) totalDisplay.innerText = total.toLocaleString() + " UZS";
     updateCartBadge();
 }
@@ -234,15 +289,11 @@ function saveCart() {
     localStorage.setItem('cart', JSON.stringify(cart));
 }
 
-// 6. QOSHIMCHA FUNKSIYALAR
-function checkAdminAccess(event) {
-    event.preventDefault();
-    const password = prompt("Admin parolini kiriting:");
-    if (password === "1234") {
-        window.location.href = "admin/admin.html";
-    } else {
-        alert("Parol noto'g'ri!");
-    }
+// 7. NAVBAR VA QO'SHIMCHA ELEMENTLAR (Sen so'ragan vizuallar)
+function toggleMobileMenu() {
+    const navbar = document.querySelector('.navbar');
+    navbar.classList.toggle('active-menu');
+    console.log("Mobil menyu bosildi");
 }
 
 function toggleDropdown(e) {
@@ -255,6 +306,29 @@ function formatInput(input) {
     input.value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 }
 
+// 8. ADMIN ACCESS VA EVENTLAR
+function checkAdminAccess(event) {
+    event.preventDefault();
+    const password = prompt("Admin parolini kiriting:");
+    if (password === "1234") {
+        window.location.href = "admin/admin.html";
+    } else {
+        alert("Parol noto'g'ri!");
+    }
+}
+
+// Scroll bo'lganda Navbarni blur qilish
+window.onscroll = function () {
+    const navbar = document.querySelector('.navbar');
+    if (window.pageYOffset > 50) {
+        navbar.style.backdropFilter = "blur(10px)";
+        navbar.style.backgroundColor = "rgba(0, 0, 0, 0.50)";
+    } else {
+        navbar.style.backdropFilter = "none";
+        navbar.style.backgroundColor = "#080808";
+    }
+};
+
 // Dasturni ishga tushirish
 document.addEventListener('DOMContentLoaded', () => {
     fetchProducts();
@@ -262,20 +336,26 @@ document.addEventListener('DOMContentLoaded', () => {
     renderCartItems();
 
     window.onclick = (e) => {
+        // Tashqariga bosilganda dropdownni yopish
         if (!e.target.closest('.filter-dropdown')) {
             const drop = document.getElementById('priceDropdown');
             if (drop) drop.classList.remove('show');
         }
+        // Search inputdan tashqari bosilganda yopish
+        const searchWrap = document.querySelector('.search-wrapper');
+        const searchInp = document.getElementById("searchInput");
+        if (searchWrap && !searchWrap.contains(e.target) && searchInp.value === "") {
+            searchInp.classList.remove("show-search");
+        }
     };
 });
 
+// To'g'ridan-to'g'ri buyurtma tekshiruvi
 window.addEventListener('load', () => {
     const directOrder = localStorage.getItem('direct_order');
     if (directOrder) {
         const product = JSON.parse(directOrder);
-        localStorage.removeItem('direct_order'); // Xotirani tozalaymiz
-
-        // Modal ochilishi uchun ozgina kutamiz (sahifa to'liq yuklanishi uchun)
+        localStorage.removeItem('direct_order');
         setTimeout(() => {
             if (typeof openOrderModal === 'function') {
                 openOrderModal(product);
@@ -283,3 +363,88 @@ window.addEventListener('load', () => {
         }, 500);
     }
 });
+
+// 1. Qidiruv panelini ochish/yopish funksiyasi
+function toggleSearch() {
+    const container = document.getElementById('searchContainer');
+    const input = document.getElementById('searchnavInput');
+
+    // Klassni qo'shish yoki olib tashlash
+    container.classList.toggle('active');
+
+    if (container.classList.contains('active')) {
+        // Animatsiya tugashini kutib, inputga fokus beramiz
+        setTimeout(() => {
+            input.focus();
+        }, 300);
+    } else {
+        // Yopilganda ichini tozalash va hamma mahsulotlarni qaytarish
+        input.value = '';
+        if (typeof searchProducts === "function") searchProducts();
+    }
+}
+
+// 2. Qidiruv mantiqi (Real-vaqtda qidirish)
+function searchProducts() {
+    const term = document.getElementById('searchnavInput').value.toLowerCase();
+
+    // Diqqat: 'allProducts' - bu sening Supabase'dan kelgan hamma mahsulotlaring massivi bo'lishi kerak
+    // Agar massiving boshqa nomda bo'lsa, nomini o'zgartirib qo'y.
+    if (typeof allProducts !== 'undefined') {
+        const filtered = allProducts.filter(p =>
+            p.name.toLowerCase().includes(term) ||
+            (p.description && p.description.toLowerCase().includes(term))
+        );
+
+        // Bu funksiya mahsulotlarni ekranga qayta chizadi
+        if (typeof displayProducts === "function") {
+            displayProducts(filtered);
+        }
+    }
+}
+
+function toggleMobileMenu() {
+    const sidebar = document.getElementById("mobileSidebar");
+    const overlay = document.getElementById("overlay");
+
+    sidebar.classList.toggle("active");
+    overlay.classList.toggle("active");
+
+    // Menyu ochiqligida asosiy sahifa scroll bo'lmasligi uchun
+    if (sidebar.classList.contains("active")) {
+        document.body.style.overflow = "hidden";
+    } else {
+        document.body.style.overflow = "auto";
+    }
+}
+
+async function loadMobileHero() {
+    // Supabase'dan eng oxirgi banner ma'lumotini olish
+    const { data, error } = await _supabase
+        .from('hero_product') //
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single();
+
+    if (error || !data) {
+        console.error("Mobil banner yuklanmadi:", error?.message);
+        return;
+    }
+
+    const mobileHeroContainer = document.getElementById('hero-mobile');
+    if (mobileHeroContainer) {
+        // Faqat nomi, rasmi va batafsil tugmasi
+        mobileHeroContainer.innerHTML = `
+            <div class="home" style="background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('${data.image_url}') center/cover no-repeat;">
+                <h1 class="hometext">${data.name}</h1>
+                <button class="home-btn" onclick="window.location.href='pages/pages.html?id=${data.id}&type=hero'">
+                    BATAFSIL
+                </button>
+            </div>
+        `;
+    }
+}
+
+// Sahifa yuklanganda faqat mobil banner yuklanadi
+document.addEventListener('DOMContentLoaded', loadMobileHero);

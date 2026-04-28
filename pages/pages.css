@@ -34,17 +34,38 @@ body {
     margin-top: 20px;
 }
 
-/* Galereya */
+/* Galereya (YANGILANDI) */
 .product-gallery {
     flex: 1.2;
+    min-width: 0;
+    /* Swiper buzilmasligi uchun */
 }
 
-.main-image img {
+.main-image {
     width: 100%;
     height: 500px;
-    object-fit: contain;
     background: #f9f9f9;
     border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+}
+
+.mainPageSwiper {
+    width: 100%;
+    height: 100%;
+}
+
+.mainPageSwiper .swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Swiper Tugmalari */
+.swiper-button-next,
+.swiper-button-prev {
+    color: #000 !important;
+    transform: scale(0.7);
 }
 
 .thumbnails {
@@ -63,13 +84,15 @@ body {
     border-radius: 8px;
     border: 2px solid transparent;
     transition: 0.3s;
+    opacity: 0.6;
 }
 
 .thumbnails img.active {
     border-color: #000;
+    opacity: 1;
 }
 
-/* Ma'lumotlar qismi */
+/* Ma'lumotlar */
 .product-info {
     flex: 1;
 }
@@ -98,6 +121,11 @@ body {
     font-weight: bold;
     cursor: pointer;
     margin-bottom: 30px;
+    transition: 0.3s;
+}
+
+.order-btn:hover {
+    background: #333;
 }
 
 .description-box h3 {
@@ -111,33 +139,41 @@ body {
     white-space: pre-line;
 }
 
-/* --- BOSHQA MAHSULOTLAR (4 TA) --- */
+/* --- BOSHQA MAHSULOTLAR BO'LIMI --- */
 .more-products-section {
     margin-top: 60px;
     padding-top: 40px;
     border-top: 1px solid #eee;
+    clear: both;
 }
 
 .section-title {
     font-size: 24px;
     font-weight: 700;
     margin-bottom: 30px;
+    text-align: left;
 }
 
 .more-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 25px;
+    /* Desktopda 4 ta */
+    gap: 20px;
 }
 
 .more-grid .product-card {
-    transition: 0.3s;
+    background: #fff;
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
+    height: 100%;
+    /* Kartalar teng balandlikda bo'lishi uchun */
 }
 
 .more-grid .product-image {
-    height: 280px;
+    width: 100%;
+    height: 250px;
+    /* Rasmlar balandligini qat'iy belgilaymiz */
     background: #f9f9f9;
     border-radius: 12px;
     overflow: hidden;
@@ -147,31 +183,53 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    /* Rasm joyni to'liq egallashi uchun */
+}
+
+.more-grid .product-info {
+    padding: 10px 0;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 }
 
 .more-grid .product-name {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 700;
-    margin: 12px 0 5px;
-    min-height: 40px;
+    margin: 10px 0 5px;
+    color: #000;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    /* Ism 2 qatordan oshsa nuqta qo'yadi */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 36px;
 }
 
 .more-grid .product-price {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
-    color: #555;
+    color: #666;
     margin-bottom: 15px;
 }
 
-.btn-more {
+.more-grid .btn-more {
+    margin-top: auto;
+    /* Tugmani doim pastga tushiradi */
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     background: #000;
     color: #fff;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
+    font-size: 13px;
+    transition: 0.3s;
+}
+
+.more-grid .btn-more:hover {
+    background: #333;
 }
 
 /* Moslashuvchanlik */
@@ -184,6 +242,10 @@ body {
 @media (max-width: 768px) {
     .product-wrapper {
         flex-direction: column;
+    }
+
+    .main-image {
+        height: 350px;
     }
 
     .more-grid {

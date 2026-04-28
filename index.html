@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Al-Harameen Watches</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="order-system/order.css">
 
@@ -25,8 +26,8 @@
         <div class="nav-right-group">
             <div class="search-container" id="searchContainer">
                 <input type="text" id="searchnavInput" class="searchnavinput" placeholder="Mahsulot qidirish..."
-                    oninput="searchProducts()">
-                <button class="search-btn" id="search-Btn" onclick="toggleSearch()">
+                    oninput="searchProducts(this.value)"> <button class="search-btn" id="search-Btn"
+                    onclick="toggleSearch()">
                     <i class="fas fa-search"><ion-icon name="search"></ion-icon></i>
                 </button>
             </div>
@@ -254,6 +255,19 @@
             <span class="t-letter">UG</span><span>Uz Global</span>
         </a>
     </div>
+
+    <div id="photo-modal" class="photo-modal">
+        <span class="close-modal">&times;</span>
+        <div class="swiper fullscreen-swiper">
+            <div class="swiper-wrapper" id="fullscreen-wrapper">
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>

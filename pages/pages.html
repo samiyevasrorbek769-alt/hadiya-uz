@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mahsulot Batafsil</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="pages.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -19,7 +20,15 @@
         <div class="product-wrapper">
             <div class="product-gallery">
                 <div class="main-image">
-                    <img id="mainImg"  alt="Yuklanmoqda...">
+                    <div class="swiper mainPageSwiper">
+                        <div class="swiper-wrapper" id="main-slides">
+                            <div class="swiper-slide">
+                                <p style="text-align:center; padding-top:200px;">Yuklanmoqda...</p>
+                            </div>
+                        </div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev"></div>
+                    </div>
                 </div>
                 <div class="thumbnails" id="thumbContainer"></div>
             </div>
@@ -43,6 +52,7 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="pages.js"></script>
 </body>
 

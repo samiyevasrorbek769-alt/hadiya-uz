@@ -42,9 +42,9 @@ async function getProductDetails() {
 
         if (product.images && product.images.length > 0) {
             // Asosiy slaydlarni to'ldirish
-            mainWrapper.innerHTML = product.images.map(img => `
+            mainWrapper.innerHTML = product.images.map((img, index) => `
                 <div class="swiper-slide">
-                    <img src="${img}" alt="${product.name}">
+                    <img src="${img}" alt="${product.name}" onclick="openLightbox('${index}')" style="cursor: zoom-in;">
                 </div>
             `).join('');
 
@@ -74,6 +74,93 @@ async function getProductDetails() {
         console.error("Xatolik:", err.message);
     }
 }
+
+// ==========================================
+// FULLSCREEN LIGHTBOX SWIPER FUNKSIYALARI
+// ==========================================
+
+let lightboxSwiper = null; // Global o'zgaruvchi
+
+/**
+ * Lightboxni ochish va ichidagi Swiperni ishga tushirish
+ * @param {number} index - Bosilgan rasmning tartib raqami
+ */
+function openLightbox(index) {
+    const lightbox = document.getElementById('fullscreenLightbox');
+    const wrapper = document.getElementById('lightbox-slides');
+
+    // currentProduct global obyekti va undagi rasmlar mavjudligini tekshiramiz
+    if (!currentProduct || !currentProduct.images) {
+        console.error("Mahsulot rasmlari topilmadi!");
+        return;
+    }
+
+    // 1. Lightbox ichidagi slaydlarni (html) har gal tozalab, qayta yuklaymiz
+    wrapper.innerHTML = currentProduct.images.map(img => `
+        <div class="swiper-slide">
+            <div class="swiper-zoom-container">
+                <img src="${img}" alt="Product Image">
+            </div>
+        </div>
+    `).join('');
+
+    // 2. Lightbox oynasini ko'rsatamiz
+    lightbox.style.display = 'flex';
+
+    // 3. Agar Swiper obyekti hali yaratilmagan bo'lsa, yangi yaratamiz
+    if (!lightboxSwiper) {
+        lightboxSwiper = new Swiper(".lightboxSwiper", {
+            loop: true,
+            zoom: true, // Ikki marta bosganda yoki telefonda rasm kattalashishi uchun
+            spaceBetween: 10,
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+                dynamicBullets: true,
+            },
+            keyboard: {
+                enabled: true, // Klaviatura orqali boshqarish
+            },
+        });
+    } else {
+        // Agar Swiper allaqachon bor bo'lsa, uni yangi rasmlar bilan yangilaymiz
+        lightboxSwiper.update();
+    }
+
+    // 4. Aynan bosilgan rasmga (index bo'yicha) o'tkazamiz
+    // slideToLoop ishlatiladi, chunki loop: true yoqilgan
+    setTimeout(() => {
+        lightboxSwiper.slideToLoop(index, 0);
+    }, 50);
+}
+
+/**
+ * Lightbox oynasini yopish
+ */
+function closeLightbox() {
+    const lightbox = document.getElementById('fullscreenLightbox');
+    if (lightbox) {
+        lightbox.style.display = 'none';
+    }
+}
+
+// Qo'shimcha: "Esc" tugmasi bosilganda yopish mantiqi
+document.addEventListener('keydown', (e) => {
+    if (e.key === "Escape") closeLightbox();
+});
+
+// 2. Swiper ichidagi rasmlarga buni ulash
+// getProductDetails funksiyasidagi rasmlar chiqadigan qismini shunday yangilang:
+/* mainWrapper.innerHTML = product.images.map(img => `
+        <div class="swiper-slide">
+            <img src="${img}" alt="${product.name}" onclick="openLightbox('${img}')">
+        </div>
+    `).join('');
+*/
 
 // Thumbnail yangilanishi
 function updateThumbs(index) {

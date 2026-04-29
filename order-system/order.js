@@ -6,6 +6,24 @@ const CHAT_ID = '6943894774';
 let currentOrderProduct = null; // Agar bitta mahsulot ustidan "Buyurtma" bosilsa
 let currentOrderQty = 1;
 
+// Bazadagi barcha adminlarning Telegram ID-larini olish
+async function getAllAdminIds() {
+    try {
+        const { data, error } = await _supabase.from('admins').select('telegram_id');
+        if (error) throw error;
+
+        // Asosiy CHAT_ID va bazadagi adminlarni birlashtiramiz
+        let adminIds = [CHAT_ID];
+        if (data) {
+            data.forEach(admin => adminIds.push(admin.telegram_id));
+        }
+        return [...new Set(adminIds)]; // Takrorlanishni olib tashlaymiz
+    } catch (err) {
+        console.error("Adminlarni olishda xato:", err);
+        return [CHAT_ID]; // Xato bo'lsa faqat senga boradi
+    }
+}
+
 // 1. MODALNI OCHISH (Bitta mahsulot uchun)
 function openOrderModal(product) {
     currentOrderProduct = product;
@@ -98,8 +116,25 @@ function updateOrderTotal() {
     }
 }
 
-// 6. TELEGRAMGA XABAR YUBORISH (HTML FORMAT)
+// 6. TELEGRAMGA XABAR YUBORISH VA ADMIN BOSHQARUVI
 async function sendToTelegram(order) {
+    // A. Barcha adminlarni olish (Sening CHAT_ID + Bazadagi adminlar)
+    async function getAdmins() {
+        try {
+            const { data, error } = await _supabase.from('admins').select('telegram_id');
+            let adminList = [CHAT_ID]; // Sen har doim ro'yxatda birinchi bo'lasan
+            if (data) {
+                data.forEach(adm => adminList.push(adm.telegram_id));
+            }
+            return [...new Set(adminList)]; // Takrorlanmas IDlar
+        } catch (e) {
+            return [CHAT_ID]; // Xato bo'lsa faqat senga yuboradi
+        }
+    }
+
+    const adminIds = await getAdmins();
+
+    // B. Buyurtma matni (HTML)
     const text = `
 <b>📦 YANGI BUYURTMA!</b>
 <b>──────────────────</b>
@@ -115,22 +150,99 @@ ${order.product_name}
 <b>🕒 Vaqt:</b> ${new Date().toLocaleString('uz-UZ')}
     `;
 
-    try {
-        const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+    // C. Barcha adminlarga yuborish mantiqi
+    const sendPromises = adminIds.map(id =>
+        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                chat_id: CHAT_ID,
+                chat_id: id,
                 text: text,
                 parse_mode: 'HTML'
             })
-        });
-        const result = await response.json();
-        if (!result.ok) console.error("Telegram xatosi:", result.description);
+        }).then(res => res.json())
+    );
+
+    try {
+        await Promise.all(sendPromises);
     } catch (err) {
         console.error("Telegramga yuborishda xato:", err);
     }
 }
+
+// 6.1. TELEGRAMDAN ADMIN QO'SHISH (MAXSUS FUNKSIYA)
+// Bu funksiyani ishlashi uchun sayt ochiq bo'lganda botga kelgan so'nggi xabarni tekshiradi
+async function checkBotUpdates() {
+    try {
+        const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?offset=-1`);
+        const data = await response.json();
+
+        if (data.ok && data.result.length > 0) {
+            const lastMsg = data.result[0].message;
+            const text = lastMsg.text;
+            const fromId = String(lastMsg.from.id);
+
+            // Faqat sen (Asosiy Admin) buyruq bera olasan
+            if (fromId === CHAT_ID && text.startsWith('/addadmin')) {
+                const parts = text.split(' ');
+                if (parts.length >= 3) {
+                    const newId = parts[1];
+                    const newName = parts.slice(2).join(' ');
+
+                    const { error } = await _supabase
+                        .from('admins')
+                        .insert([{ telegram_id: newId, name: newName }]);
+
+                    if (!error) {
+                        alert(`Yangi admin qo'shildi: ${newName}`);
+                        // Tasdiqlash uchun botga qayta xabar yuborish
+                        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ chat_id: CHAT_ID, text: `✅ ${newName} admin qilindi.` })
+                        });
+                    }
+                }
+            }
+            // Admin o'chirish buyruq formati: /removeadmin 123456789
+            if (fromId === CHAT_ID && text.startsWith('/removeadmin')) {
+                const parts = text.split(' ');
+                if (parts.length >= 2) {
+                    const targetId = parts[1].trim();
+
+                    // Supabase-dan o'chirish
+                    const { error } = await _supabase
+                        .from('admins')
+                        .delete()
+                        .eq('telegram_id', targetId);
+
+                    if (!error) {
+                        alert(`Admin (ID: ${targetId}) bazadan o'chirildi.`);
+
+                        // Bot orqali tasdiqlash xabari
+                        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                chat_id: CHAT_ID,
+                                text: `🗑 Admin muvaffaqiyatli o'chirildi (ID: ${targetId}).`
+                            })
+                        });
+                    } else {
+                        console.error("O'chirishda xatolik:", error.message);
+                        alert("Xatolik: " + error.message);
+                    }
+                }
+            }
+        }
+    } catch (e) {
+        console.error("Update tekshirishda xato:", e);
+    }
+}
+
+
+// Sayt har ochilganda botdan yangi admin buyrug'i bor-yo'qligini tekshiradi
+setInterval(checkBotUpdates, 10000); // Har 10 soniyada bir marta tekshiradi
 
 // 7. BUYURTMANI QAYTA ISHLASH (PROCESS ORDER)
 async function processOrder() {

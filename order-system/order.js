@@ -118,23 +118,21 @@ function updateOrderTotal() {
 
 // 6. TELEGRAMGA XABAR YUBORISH VA ADMIN BOSHQARUVI
 async function sendToTelegram(order) {
-    // A. Barcha adminlarni olish (Sening CHAT_ID + Bazadagi adminlar)
     async function getAdmins() {
         try {
             const { data, error } = await _supabase.from('admins').select('telegram_id');
-            let adminList = [CHAT_ID]; // Sen har doim ro'yxatda birinchi bo'lasan
+            let adminList = [CHAT_ID];
             if (data) {
                 data.forEach(adm => adminList.push(adm.telegram_id));
             }
-            return [...new Set(adminList)]; // Takrorlanmas IDlar
+            return [...new Set(adminList)];
         } catch (e) {
-            return [CHAT_ID]; // Xato bo'lsa faqat senga yuboradi
+            return [CHAT_ID];
         }
     }
 
     const adminIds = await getAdmins();
 
-    // B. Buyurtma matni (HTML)
     const text = `
 <b>📦 YANGI BUYURTMA!</b>
 <b>──────────────────</b>
@@ -150,7 +148,6 @@ ${order.product_name}
 <b>🕒 Vaqt:</b> ${new Date().toLocaleString('uz-UZ')}
     `;
 
-    // C. Barcha adminlarga yuborish mantiqi
     const sendPromises = adminIds.map(id =>
         fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
             method: 'POST',
@@ -170,67 +167,67 @@ ${order.product_name}
     }
 }
 
-// 6.1. TELEGRAMDAN ADMIN QO'SHISH (MAXSUS FUNKSIYA)
-// Bu funksiyani ishlashi uchun sayt ochiq bo'lganda botga kelgan so'nggi xabarni tekshiradi
+// --- 6.1. TELEGRAMDAN ADMIN BOSHQARISH (MUAMMOLARSIZ VARIANT) ---
+
+// 1. lastUpdateId funksiyadan tashqarida bo'lishi shart!
+let lastUpdateId = 0;
+
 async function checkBotUpdates() {
     try {
-        const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?offset=-1`);
+        // Offset qo'shish orqali eski xabarlarni Telegram serveridan o'chiramiz
+        const url = `https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?offset=${lastUpdateId + 1}&timeout=30`;
+        const response = await fetch(url);
         const data = await response.json();
 
         if (data.ok && data.result.length > 0) {
-            const lastMsg = data.result[0].message;
-            const text = lastMsg.text;
-            const fromId = String(lastMsg.from.id);
+            for (let update of data.result) {
+                // 2. Yangi ID ni darhol saqlaymiz, shunda keyingi safar bu xabar kelmaydi
+                lastUpdateId = update.update_id;
 
-            // Faqat sen (Asosiy Admin) buyruq bera olasan
-            if (fromId === CHAT_ID && text.startsWith('/addadmin')) {
-                const parts = text.split(' ');
-                if (parts.length >= 3) {
-                    const newId = parts[1];
-                    const newName = parts.slice(2).join(' ');
+                if (!update.message || !update.message.text) continue;
 
-                    const { error } = await _supabase
-                        .from('admins')
-                        .insert([{ telegram_id: newId, name: newName }]);
+                const text = update.message.text;
+                const fromId = String(update.message.from.id);
 
-                    if (!error) {
-                        alert(`Yangi admin qo'shildi: ${newName}`);
-                        // Tasdiqlash uchun botga qayta xabar yuborish
-                        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ chat_id: CHAT_ID, text: `✅ ${newName} admin qilindi.` })
-                        });
+                // Faqat sen buyruq bera olasan
+                if (fromId === CHAT_ID) {
+
+                    // --- ADMIN QO'SHISH ---
+                    if (text.startsWith('/addadmin')) {
+                        const parts = text.split(' ');
+                        if (parts.length >= 3) {
+                            const newId = parts[1].trim();
+                            const newName = parts.slice(2).join(' ');
+
+                            const { error } = await _supabase
+                                .from('admins')
+                                .insert([{ telegram_id: newId, name: newName }]);
+
+                            if (!error) {
+                                alert(`Yangi admin qo'shildi: ${newName}`);
+                                sendMessageToMainAdmin(`✅ ${newName} (ID: ${newId}) admin qilindi.`);
+                            }
+                        }
                     }
-                }
-            }
-            // Admin o'chirish buyruq formati: /removeadmin 123456789
-            if (fromId === CHAT_ID && text.startsWith('/removeadmin')) {
-                const parts = text.split(' ');
-                if (parts.length >= 2) {
-                    const targetId = parts[1].trim();
 
-                    // Supabase-dan o'chirish
-                    const { error } = await _supabase
-                        .from('admins')
-                        .delete()
-                        .eq('telegram_id', targetId);
+                    // --- ADMIN O'CHIRISH ---
+                    if (text.startsWith('/removeadmin')) {
+                        const parts = text.split(' ');
+                        if (parts.length >= 2) {
+                            const targetId = parts[1].trim();
 
-                    if (!error) {
-                        alert(`Admin (ID: ${targetId}) bazadan o'chirildi.`);
+                            const { error } = await _supabase
+                                .from('admins')
+                                .delete()
+                                .eq('telegram_id', targetId);
 
-                        // Bot orqali tasdiqlash xabari
-                        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                chat_id: CHAT_ID,
-                                text: `🗑 Admin muvaffaqiyatli o'chirildi (ID: ${targetId}).`
-                            })
-                        });
-                    } else {
-                        console.error("O'chirishda xatolik:", error.message);
-                        alert("Xatolik: " + error.message);
+                            if (!error) {
+                                alert(`Admin (ID: ${targetId}) o'chirildi.`);
+                                sendMessageToMainAdmin(`🗑 Admin bazadan o'chirildi (ID: ${targetId}).`);
+                            } else {
+                                console.error("O'chirishda xatolik:", error.message);
+                            }
+                        }
                     }
                 }
             }
@@ -240,9 +237,30 @@ async function checkBotUpdates() {
     }
 }
 
+// Botga xabar yuborish uchun yordamchi funksiya
+function sendMessageToMainAdmin(msgText) {
+    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: CHAT_ID, text: msgText })
+    });
+}
+
+// Funksiyani ishga tushirish (setInterval o'rniga loop ishlatish xavfsizroq)
+async function startBotPolling() {
+    while (true) {
+        await checkBotUpdates();
+        // Har 3 soniyada bir tekshiradi
+        await new Promise(resolve => setTimeout(resolve, 3000));
+    }
+}
+
+// Pollingni boshlash
+startBotPolling();
+
 
 // Sayt har ochilganda botdan yangi admin buyrug'i bor-yo'qligini tekshiradi
-setInterval(checkBotUpdates, 10000); // Har 10 soniyada bir marta tekshiradi
+// setInterval(checkBotUpdates, 10000); // Har 10 soniyada bir marta tekshiradi
 
 // 7. BUYURTMANI QAYTA ISHLASH (PROCESS ORDER)
 async function processOrder() {

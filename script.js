@@ -137,21 +137,22 @@ function searchProducts(query) {
 }
 
 // Narx dropdowni
-function toggleDropdown(event) {
-    if (event) event.stopPropagation();
+// function toggleDropdown(event) {
+//     if (event) event.stopPropagation();
 
-    const pricePanel = document.getElementById("priceDropdown");
-    const searchInp = document.getElementById("searchInput");
+//     const pricePanel = document.getElementById("priceDropdown");
+//     const searchInp = document.getElementById("searchInput");
 
-    if (searchInp && searchInp.classList.contains("show-search")) {
-        searchInp.classList.remove("show-search");
-        searchInp.style.display = "none";
-    }
+//     if (searchInp && searchInp.classList.contains("show-search")) {
+//         searchInp.classList.remove("show-search");
+//         searchInp.style.display = "none";
+//     }
 
-    pricePanel.classList.toggle("show");
-    pricePanel.style.display = pricePanel.classList.contains("show") ? "flex" : "none";
-    if (pricePanel.classList.contains("show")) pricePanel.style.top = "60px";
-}
+//     pricePanel.classList.toggle("show");
+//     pricePanel.style.display = pricePanel.classList.contains("show") ? "flex" : "none";
+//     if (pricePanel.classList.contains("show")) pricePanel.style.top = "60px";
+// }
+
 
 // Mobil Search paneli (Pastdagi uchun)
 function toggleSearchInput() {
@@ -165,20 +166,23 @@ function toggleSearchInput() {
 
     searchInp.classList.toggle("show-search");
     if (searchInp.classList.contains("show-search")) {
-        searchInp.style.display = "block";
+        searchInp.style.display = "show";
         searchInp.style.top = "60px";
         searchInp.focus();
     } else {
-        searchInp.style.display = "none";
+        searchInp.style.display = "show";
     }
 }
 
+// window.onclick funksiyasini quyidagicha qisqartiring:
 window.onclick = function (event) {
     if (!event.target.closest('.price-container')) {
-        document.getElementById("priceDropdown").classList.remove("show");
-        document.getElementById("priceDropdown").style.display = "none";
-        document.getElementById("searchInput").classList.remove("show-search");
-        document.getElementById("searchInput").style.display = "none";
+        const pricePanel = document.getElementById("priceDropdown");
+        if (pricePanel) {
+            pricePanel.classList.remove("show");
+            pricePanel.style.display = "none";
+        }
+        // searchInput-ni yashiradigan kodlar bu yerdan olib tashlandi
     }
 }
 

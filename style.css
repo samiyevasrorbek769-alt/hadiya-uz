@@ -1,4 +1,18 @@
 /* --- ASOSIY SOZLAMALAR --- */
+:root {
+    --gold: #D4AF37;
+    --dark: #050505;
+    /* Yana ham to'qroq qora */
+    --soft-dark: #121212;
+    --accent-green: #34C759;
+    /* iOS uslubidagi yashil */
+    --ios-radius-lg: 35px;
+    /* Rasm va bloklar uchun */
+    --ios-radius-sm: 18px;
+    /* Tugmalar uchun */
+    --jakarta: 'Plus Jakarta Sans', sans-serif;
+    --playfair: 'Playfair Display', serif;
+}
 
 html,
 body {
@@ -15,15 +29,18 @@ body {
 
 body {
     font-family: 'Segoe UI', Arial, sans-serif;
-    background-color: #f5f5f5;
+    background-color: #000000;
+    /* O'zgartirildi: Oqdan Qoraga */
     ;
     overflow-x: hidden;
 }
 
 /* --- NAVBAR (Navigatsiya) --- */
 .navbar {
-    background-color: black;
-    color: white;
+    background-color: #000000;
+    /* To'q qora */
+    color: #D4AF37;
+    /* O'zgartirildi: Oltin rang */
     position: fixed;
     top: 0;
     width: 100%;
@@ -33,6 +50,8 @@ body {
     justify-content: center;
     align-items: center;
     padding: 0 50px;
+    border-bottom: 1px solid #D4AF37;
+    /* Qo'shildi: Nozik oltin hoshiya */
 }
 
 .navbar ul {
@@ -58,7 +77,8 @@ body {
 }
 
 .navbar ul li a {
-    color: white;
+    color: #ffffff;
+    /* Oq matn */
     text-decoration: none;
     font-size: 18px;
     white-space: nowrap;
@@ -68,7 +88,8 @@ body {
 }
 
 .navbar ul li a:hover {
-    color: #f1b400;
+    color: #D4AF37;
+    /* Hoverda oltin rang */
 }
 
 .navbar ul li a::after {
@@ -78,7 +99,8 @@ body {
     height: 2px;
     bottom: 0;
     left: 0;
-    background-color: #f1b400;
+    background-color: #D4AF37;
+    /* Chiziq oltin rangda */
     transition: 0.3s;
 }
 
@@ -89,20 +111,22 @@ body {
 /* --- HOME SECTION --- */
 .homedesktop {
     height: 110vh;
-    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('asosiy.jpg') center/cover no-repeat;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('asosiy.jpg') center/cover no-repeat;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
     padding-top: 400px;
+    color: #D4AF37;
 }
 
 .hometext {
     font-size: 45px;
-    color: #FFD700;
+    color: #D4AF37;
+    /* Oltin rang */
     font-weight: bold;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
 }
 
 .hometextdesktop a {
@@ -113,8 +137,10 @@ body {
 .homedesktop .home-btndesktop {
     width: 220px;
     height: 65px;
-    background-color: #f1b400;
-    color: black;
+    background-color: #D4AF37;
+    /* Oltin tugma */
+    color: #000000;
+    /* Tugma ichi qora */
     font-size: 18px;
     font-weight: 700;
     border: none;
@@ -124,13 +150,270 @@ body {
     text-transform: uppercase;
     display: block;
     margin: 60px auto;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
     transition: 0.3s ease;
 }
 
 .homedesktop .home-btndesktop:hover {
-    background-color: #ffc400;
+    background-color: #C5A028;
+    /* Hoverda to'qroq oltin */
     transform: scale(1.05);
+}
+
+/* Hero Section */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 140px;
+    padding-bottom: 60px;
+    text-align: center;
+}
+
+.hero-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 80vh;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    gap: 40px;
+}
+
+.hero-text {
+    flex: 1;
+}
+
+.hero-visual {
+    flex: 1;
+}
+
+
+
+
+/* 3. HERO SECTION */
+/* .hero {
+    padding-top: 140px;
+    padding-bottom: 60px;
+    text-align: center;
+} */
+/* 
+.badge {
+    background: rgba(52, 199, 89, 0.1);
+    color: var(---accent-green);
+    padding: 6px 15px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid rgba(52, 199, 89, 0.3);
+} */
+
+.heroh1 {
+    color: white;
+    font-family: var(--playfair);
+    font-size: 2.8rem;
+    margin: 25px 0;
+    padding: 0 15px;
+}
+
+.heroh1i {
+    display: block;
+    color: var(--gold);
+    font-style: italic;
+}
+
+.herop {
+    color: #a1a1a1;
+    font-size: 1rem;
+    max-width: 320px;
+    margin: 0 auto 35px;
+}
+
+/* 4. TUGMALAR (iPhone uslubida silliq) */
+.hero-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 0 30px;
+}
+
+.btn-primary {
+    background: var(--gold);
+    color: #000;
+    padding: 18px;
+    text-decoration: none;
+    font-weight: 700;
+    border-radius: var(--ios-radius-sm);
+    /* Silliq burchak */
+    font-size: 1rem;
+    transition: transform 0.2s ease;
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    padding: 18px;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: var(--ios-radius-sm);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-primary:active,
+.btn-secondary:active {
+    transform: scale(0.96);
+    /* Bosilganda kichrayish effekti */
+}
+
+/* 5. KAFOLAT MATNI */
+.kafolat {
+    margin-top: 25px;
+    font-size: 0.85rem;
+    color: var(--accent-green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.kafolat::before {
+    content: '✓';
+    /* Tasdiq belgisi */
+    font-weight: 900;
+}
+
+/* 6. ASOSIY RASM (Silliq burchaklar) */
+.hero-visual {
+    margin-top: 50px;
+    padding: 0 20px;
+}
+
+.floating-img {
+    width: 100%;
+    max-width: 400px;
+    border-radius: var(--ios-radius-lg);
+    /* iPhone kabi silliq rasm burchagi */
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+
+/* MARKAZIY NUR (Oltin rangli mayin yorug'lik) */
+.glow-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.06) 0%, transparent 80%);
+    pointer-events: none;
+}
+
+/* --- RESPONSIVE DESIGN --- */
+
+/* 1. Planshetlar uchun (Max-width: 1024px) */
+@media (max-width: 1024px) {
+    .heroh1 {
+        font-size: 2.4rem;
+    }
+
+    .hero-wrapper {
+        gap: 20px;
+        padding: 0 40px;
+    }
+}
+
+/* 2. Kichik planshet va gorizontal mobil holatlar (Max-width: 768px) */
+@media (max-width: 768px) {
+    .hero {
+        height: auto;
+        /* Balandlikni kontentga qarab moslash */
+        padding-top: 100px;
+        padding-bottom: 40px;
+    }
+
+    .hero-wrapper {
+        flex-direction: column;
+        /* Rasm va matnni ustma-ust qilish */
+        text-align: center;
+        min-height: auto;
+    }
+
+    .hero-text {
+        order: 1;
+        /* Matn tepada */
+    }
+
+    .hero-visual {
+        order: 2;
+        /* Rasm pastda */
+        margin-top: 30px;
+    }
+
+    .heroh1 {
+        font-size: 2.2rem;
+    }
+
+    .hero-btns {
+        flex-direction: row;
+        /* Tugmalarni yonma-yon qilish */
+        justify-content: center;
+        padding: 0;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+        max-width: 200px;
+        /* Tugmalar juda yoyilib ketmasligi uchun */
+    }
+
+    .herop {
+        max-width: 450px;
+        /* Matn biroz kengroq bo'lishi mumkin */
+    }
+}
+
+/* 3. Mobil telefonlar uchun (Max-width: 480px) */
+@media (max-width: 480px) {
+    .hero {
+        padding-top: 80px;
+    }
+
+    .heroh1 {
+        font-size: 1.8rem;
+        /* Mobil uchun ixchamroq sarlavha */
+        margin: 15px 0;
+    }
+
+    .herop {
+        font-size: 0.9rem;
+        margin-bottom: 25px;
+        padding: 0 10px;
+    }
+
+    .hero-btns {
+        flex-direction: column;
+        /* Mobilda tugmalar yana ustma-ust */
+        width: 100%;
+        padding: 0 20px;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        max-width: 100%;
+        padding: 15px;
+        /* Mobilda bosishga qulayroq ixcham o'lcham */
+    }
+
+    .floating-img {
+        max-width: 300px;
+        /* Rasm ekran chetiga taqalib qolmasligi uchun */
+    }
+
+    /* .badge {
+        font-size: 0.7rem;
+        padding: 4px 12px;
+    } */
 }
 
 /* --- PRODUCT SECTION (Kategoriyalar va Filtr) --- */
@@ -138,6 +421,7 @@ body {
     padding: 40px 50px;
     max-width: 1200px;
     margin: 50px auto;
+    background-color: #000000;
 }
 
 .product-filter {
@@ -150,7 +434,8 @@ body {
 
 .filter-link {
     text-decoration: none;
-    color: #333;
+    color: #ffffff;
+    /* Matn oq */
     font-size: 16px;
     font-weight: 700;
     text-transform: uppercase;
@@ -168,42 +453,36 @@ body {
 
 .filter-link:hover,
 .filter-link.active {
-    color: #000;
-    border-bottom: 2px solid #000;
+    color: #D4AF37;
+    /* Faol qismi oltin */
+    border-bottom: 2px solid #D4AF37;
 }
 
 /* --- TO'G'RILANGAN: NARX VA QIDIRUV JOYLASHUVI --- */
-.price-container {
+/* .price-container {
     display: flex;
     justify-content: space-between;
-    /* Ikki tomonga surish */
     align-items: flex-start;
-    border-top: 1px solid #eee;
+    border-top: 1px solid #333;
     padding-top: 25px;
+    background-color: #000000;
 }
 
 .filter-left-group {
     display: flex;
     flex-direction: column;
-    /* Narx tepada, Найдено pastda */
     gap: 15px;
-}
+} */
 
-.found-text {
-    color: #888;
-    font-size: 15px;
-    font-weight: 600;
-    margin: 0;
-}
 
 /* --- DROPDOWN VA SEARCH --- */
-.filter-dropdown {
+/* .filter-dropdown {
     position: relative;
 }
 
 .dropdown-btn {
-    background: none;
-    border: 1px solid #ddd;
+    background: #111;
+    border: 1px solid #D4AF37;
     padding: 10px 20px;
     border-radius: 8px;
     font-size: 16px;
@@ -211,6 +490,7 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
+    color: #D4AF37;
 }
 
 .dropdown-content {
@@ -218,10 +498,10 @@ body {
     position: absolute;
     top: 100%;
     left: 0;
-    background: white;
+    background: #1a1a1a;
     padding: 15px;
-    border: 1px solid #eee;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid #D4AF37;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
     z-index: 100;
     border-radius: 8px;
     margin-top: 10px;
@@ -231,19 +511,36 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
+    color: #D4AF37;
+} */
+
+
+.search-wrapper {
+    margin-top: -50px;
 }
 
 .search-wrapper input {
+    margin: 0px 75px;
+    align-items: flex-start;
     padding: 12px 15px;
-    border: 1px solid #ddd;
+    border: 1px solid #333;
     border-radius: 8px;
     width: 300px;
     outline: none;
     transition: 0.3s;
+    background-color: #111;
+    color: #ffffff;
 }
 
 .search-wrapper input:focus {
-    border-color: #f1b400;
+    border-color: #D4AF37;
+}
+
+.found-text {
+    color: #888;
+    font-size: 15px;
+    font-weight: 600;
+    margin: 30px 75px;
 }
 
 /* --- PRODUCT GRID --- */
@@ -254,20 +551,30 @@ body {
     max-width: 1300px;
     margin: 0 auto;
     padding: 0 50px 50px;
+    background-color: #000000;
 }
 
 .product-card {
     display: flex;
     flex-direction: column;
-    transition: 0.3s;
+    border-radius: 20px;
+    border: 1px solid #222;
+    transition: 0.3s ease;
+    background-color: #000000;
+}
+
+.product-card:hover {
+    transform: translateY(-20px);
+    border-color: #D4AF37;
 }
 
 .product-image {
     width: 100%;
     height: 400px;
-    background-color: #f9f9f9;
+    background-color: #111;
     border-radius: 20px;
     overflow: hidden;
+    border: 1px solid #222;
 }
 
 .product-image img {
@@ -283,6 +590,7 @@ body {
 
 .product-info {
     padding: 15px 5px;
+    background-color: #000000;
 }
 
 .product-name {
@@ -290,17 +598,18 @@ body {
     font-weight: 700;
     margin-bottom: 5px;
     min-height: 50px;
-    /* Barcha nomlar uchun bir xil joy ajratadi */
+    color: #ffffff;
+    /* Mahsulot nomi oq */
     display: -webkit-box;
     -webkit-line-clamp: 2;
-    /* Ism 2 qatordan oshsa, "..." qo'yadi */
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
 .product-price {
     font-size: 17px;
-    color: #555;
+    color: #D4AF37;
+    /* Narxi oltin rangda */
     font-weight: 600;
     margin-bottom: 15px;
 }
@@ -322,31 +631,34 @@ body {
 }
 
 .btn-more {
-    background: #000;
-    color: #fff;
+    background: transparent;
+    color: #D4AF37;
+    border: 1px solid #D4AF37;
+}
+
+.btn-more:hover {
+    background: #D4AF37;
+    color: #000;
 }
 
 .btn-order {
-    background: #f2f2f2;
+    background: #D4AF37;
     color: #000;
-    border: 1px solid #ddd;
+    border: 1px solid #D4AF37;
 }
 
 .btn-order:hover {
-    background: #e6e6e6;
+    background: #C5A028;
 }
 
 /* Sening kodingni Swiper bilan "do'stlashtirish" */
 .product-image.swiper {
     position: relative;
-    /* Tugmalar chiqishi uchun */
     display: block;
-    /* Flex-box buzilmasligi uchun */
 }
 
 .product-image .swiper-wrapper {
     display: flex !important;
-    /* Rasmlar qator bo'lishi shart */
 }
 
 .product-image .swiper-slide {
@@ -355,11 +667,11 @@ body {
     height: 100%;
 }
 
-/* Navigatsiya tugmalari sening 400px rasm ustida chiroyli ko'rinishi uchun */
+/* Navigatsiya tugmalari */
 .product-image .swiper-button-next,
 .product-image .swiper-button-prev {
-    color: #ffa600 !important;
-    background: rgba(255, 255, 255, 0.5);
+    color: #D4AF37 !important;
+    background: rgba(0, 0, 0, 0.6);
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -383,7 +695,7 @@ body {
 
 .product-image .swiper-button-next,
 .product-image .swiper-button-prev {
-    color: #ffa600 !important;
+    color: #D4AF37 !important;
     transform: scale(0.6);
     opacity: 0;
     transition: 0.3s;
@@ -423,23 +735,292 @@ body {
     position: absolute;
     top: 20px;
     right: 30px;
-    color: #fff;
+    color: #D4AF37;
     font-size: 40px;
     cursor: pointer;
     z-index: 10001;
 }
 
-/* you tube video qismi uchun alohida bo'lim*/
+.mechanism-cta {
+    position: relative;
+    padding: 100px 0;
+    min-height: 650px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: #000;
+}
+
+/* Glassmorphism Fon */
+.cta-blur-bg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 95%;
+    height: 90%;
+    background: rgba(15, 15, 15, 0.6);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(212, 175, 55, 0.15);
+    border-radius: 20px;
+    z-index: 1;
+}
+
+/* Kontentni o'rab turuvchi wrapper */
+.cta-wrapper {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    width: 100%;
+}
+
+.cta-content {
+    flex: 1.2;
+    text-align: left;
+    margin-left: 150px;
+    /* Desktopda chapda chiroyli ko'rinadi */
+}
+
+.cta-content h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 60px;
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: 30px;
+}
+
+.cta-content h1 span {
+    font-size: 50px;
+    color: var(--gold);
+    font-style: italic;
+    display: block;
+    margin-top: 10px;
+}
+
+.cta-content p {
+    color: #fff;
+    opacity: 0.9;
+    font-size: 1.15rem;
+    line-height: 1.8;
+    margin-bottom: 40px;
+    font-weight: 500;
+}
+
+.order-now-btn {
+    background: var(--gold);
+    color: #000;
+    border: none;
+    padding: 22px 50px;
+    font-size: 1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    box-shadow: 0 15px 35px rgba(212, 175, 55, 0.2);
+}
+
+.order-now-btn:hover {
+    background: #fff;
+    transform: translateY(-5px);
+}
+
+/* Sertifikat */
+.certifikate {
+    flex: 0.8;
+    display: flex;
+    justify-content: center;
+}
+
+.certifikate img {
+    width: 100%;
+    max-width: 400px;
+    height: 500px;
+    border-radius: 10px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+/* --- MEDIA QUERY (768px) --- */
+@media (max-width: 768px) {
+    .mechanism-cta {
+        padding: 60px 0;
+        min-height: auto;
+    }
+
+    .cta-blur-bg {
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+    }
+
+    .cta-wrapper {
+        flex-direction: column !important;
+        /* Tepa-past tushirish */
+        text-align: center;
+        gap: 50px;
+    }
+
+    .cta-content {
+        margin-left: -15px;
+        order: 1;
+        /* Matn tepada */
+    }
+
+    .cta-content h1 {
+        font-size: 37px !important;
+    }
+
+    .cta-content h1 span {
+        font-size: 33px !important;
+    }
+
+    .cta-content p {
+        opacity: 0.9;
+        font-size: 1rem;
+        padding: 0 10px;
+    }
+
+    .order-now-btn {
+        border: none;
+        border-radius: 40px;
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .certifikate {
+        order: 2;
+        /* Rasm pastda */
+        width: 100%;
+    }
+
+    .certifikate img {
+        height: 450px;
+        max-width: 280px;
+        /* Mobilda rasm biroz kichrayadi */
+    }
+}
+
+/* FINAL SECTION ASOSI */
+.final-section {
+    padding: 100px 20px;
+    background: #000;
+}
+
+/* PREMIUM KARTA (Jiddiy va qat'iy) */
+.premium-card {
+    background: #0a0a0a;
+    border: 1px solid rgba(197, 160, 89, 0.2);
+    /* Oltin rangli hoshiya */
+    max-width: 650px;
+    margin: 0 auto;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+    /* Burchaklar silliq emas, jiddiyroq (8px-10px) */
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Yuqoridagi oltin chiziq (Premium belgi) */
+.card-line {
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    width: 100%;
+}
+
+.card-body {
+    padding: 60px 40px;
+    text-align: center;
+}
+
+.card-body h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: #fff;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+.card-body h2 span {
+    color: var(--gold);
+    display: block;
+    margin-top: 5px;
+}
+
+.card-body p {
+    color: #888;
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+}
+
+/* TUGMALAR (Jiddiy uslubda) */
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    /* Bitta qatorda bittadan */
+    gap: 20px;
+}
+
+.btn-main-order {
+    background: var(--gold);
+    color: #000;
+    text-decoration: none;
+    padding: 22px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 1rem;
+    transition: 0.3s;
+    border-radius: 4px;
+    /* Qat'iy burchak */
+}
+
+.btn-main-order ion-icon {
+    margin-top: -100px;
+    font-size: 20px;
+}
+
+.btn-main-order:hover {
+    background: #fff;
+    transform: translateY(-3px);
+}
+
+.btn-tg-order {
+    background: transparent;
+    border: 1px solid #444;
+    color: #fff;
+    text-decoration: none;
+    padding: 20px;
+    font-weight: 500;
+    border-radius: 4px;
+    transition: 0.3s;
+    letter-spacing: 1px;
+}
+
+
+.btn-tg-order:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+}
+
+/* you tube video qismi */
 .video-reviews-section {
-    background-color: white;
+    background-color: #000000;
 }
 
 /* --- TO'G'RILANGAN: VIDEO GRID (1 QATORDA 2 TA) --- */
 .video-grid {
-    background: white;
+    background: #000000;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    /* 1 qatorda 2 ta */
     gap: 30px;
     max-width: 1200px;
     margin: 0 auto;
@@ -450,8 +1031,8 @@ body {
     width: 100%;
     aspect-ratio: 16 / 9;
     border-radius: 15px;
-    border: 1px solid #f1b400;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid #D4AF37;
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2);
 }
 
 /* --- SAVATCHA PANELI --- */
@@ -461,7 +1042,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.8);
     z-index: 2000;
     display: none;
 }
@@ -476,12 +1057,13 @@ body {
     right: -400px;
     width: 380px;
     height: 100%;
-    background: white;
+    background: #111111;
     z-index: 2001;
-    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
     transition: 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     display: flex;
     flex-direction: column;
+    color: #ffffff;
 }
 
 .cart-panel.open {
@@ -490,7 +1072,7 @@ body {
 
 .cart-panel-header {
     padding: 25px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #222;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -499,17 +1081,18 @@ body {
 .cart-panel-header h3 {
     font-size: 20px;
     font-weight: 800;
+    color: #D4AF37;
 }
 
 .close-cart {
     font-size: 35px;
     cursor: pointer;
-    color: #ccc;
+    color: #D4AF37;
     transition: 0.3s;
 }
 
 .close-cart:hover {
-    color: #000;
+    color: #ffffff;
 }
 
 .cart-items-container {
@@ -520,7 +1103,7 @@ body {
 
 .cart-panel-footer {
     padding: 25px;
-    border-top: 1px solid #eee;
+    border-top: 1px solid #222;
 }
 
 .total-row {
@@ -529,13 +1112,14 @@ body {
     font-weight: 800;
     font-size: 19px;
     margin-bottom: 20px;
+    color: #D4AF37;
 }
 
 .checkout-btn {
     width: 100%;
     padding: 18px;
-    background: black;
-    color: white;
+    background: #D4AF37;
+    color: #000000;
     border: none;
     border-radius: 12px;
     font-weight: bold;
@@ -545,7 +1129,7 @@ body {
 }
 
 .checkout-btn:hover {
-    background: #333;
+    background: #C5A028;
     transform: translateY(-2px);
 }
 
@@ -556,14 +1140,14 @@ body {
     right: 30px;
     width: 65px;
     height: 65px;
-    background-color: #f1b400;
+    background-color: #D4AF37;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     z-index: 1500;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
     transition: 0.3s;
 }
 
@@ -573,14 +1157,15 @@ body {
 
 .floating-cart img {
     width: 30px;
-    filter: contrast(0);
+    filter: brightness(0);
+    /* Ikonka qora bo'lishi uchun */
 }
 
 .cart-badge {
     position: absolute;
     top: 0;
     right: 0;
-    background: red;
+    background: #ff0000;
     color: white;
     font-size: 12px;
     width: 22px;
@@ -590,7 +1175,7 @@ body {
     justify-content: center;
     align-items: center;
     font-weight: bold;
-    border: 2px solid #f1b400;
+    border: 2px solid #D4AF37;
 }
 
 .main-btn {
@@ -600,8 +1185,9 @@ body {
     align-items: center;
     justify-content: center;
     gap: 10px;
-    background-color: #333;
-    color: white;
+    background-color: #1a1a1a;
+    color: #D4AF37;
+    border: 1px solid #D4AF37;
     text-decoration: none;
     padding: 15px;
     border-radius: 50px;
@@ -610,8 +1196,8 @@ body {
 }
 
 .main-btn:active {
-    border: none;
-    background-color: #ffa600;
+    background-color: #D4AF37;
+    color: #000;
 }
 
 /* --- TO'G'RILANGAN: SAVATCHADAGI KATAROQ TUGMALAR --- */
@@ -624,12 +1210,11 @@ body {
 
 .order-qty-control button {
     width: 40px;
-    /* Kattaroq qildim */
     height: 40px;
     border-radius: 10px;
     border: none;
-    background: #f1b400;
-    color: black;
+    background: #D4AF37;
+    color: #000000;
     font-size: 22px;
     font-weight: bold;
     cursor: pointer;
@@ -640,31 +1225,32 @@ body {
 }
 
 .order-qty-control button:hover {
-    background: #000;
-    color: #f1b400;
+    background: #ffffff;
+    color: #000;
 }
 
 .cart-item {
-    background: #fdfdfd;
+    background: #1a1a1a;
     padding: 15px;
     border-radius: 12px;
-    border: 1px solid #f5f5f5;
+    border: 1px solid #222;
     margin-bottom: 10px;
 }
 
 .delivery-section {
     padding: 100px 20px;
-    background-color: #fff;
+    background-color: #000000;
     text-align: center;
     font-family: 'Arial', sans-serif;
+    color: #ffffff;
 }
 
 .delivery-main-title {
     font-size: 48px;
-    /* Katta va salmoqli sarlavha */
     font-weight: 700;
     margin-bottom: 60px;
     letter-spacing: -1px;
+    color: #D4AF37;
 }
 
 .delivery-text-wrapper {
@@ -674,10 +1260,9 @@ body {
 
 .delivery-text-wrapper p {
     font-size: 22px;
-    /* Matnlar ham yirikroq */
     line-height: 1.6;
     margin: 5px 0;
-    color: #333;
+    color: #e0e0e0;
 }
 
 /* Bloklar orasidagi masofa */
@@ -687,45 +1272,42 @@ body {
 
 .delivery-text-wrapper strong {
     font-weight: 800;
-    color: #000;
+    color: #D4AF37;
 }
 
 .delivery-footer-text {
     margin-top: 50px !important;
     font-size: 24px !important;
     font-weight: 700;
-    color: #000 !important;
+    color: #D4AF37 !important;
 }
 
 /* Logotiplar */
-/* --- LOGOTIPLARNI KATTALASHTIRISH (YANGI KOD) --- */
 .delivery-footer-logos {
     margin-top: 80px;
-    /* Matndan bir oz pastroq tushiramiz */
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 70px;
-    /* Logolar orasidagi masofa ham kengroq */
     flex-wrap: wrap;
-    /* Mobil ekranda chiroyli tushishi uchun */
 }
 
 .delivery-footer-logos img {
     height: 130px;
     width: auto;
-    /* Kengligi proporsional saqlanadi */
-
     object-fit: contain;
     transition: transform 0.3s ease-out, filter 0.3s ease;
+    filter: grayscale(1) brightness(1.5);
+    /* Logolarni qora fonda moslash */
 }
 
 /* --- FOOTER ASOSIY QISMI --- */
 .footer-section {
-    background-color: #1a1a1a;
+    background-color: #0a0a0a;
     color: #fff;
     padding: 80px 20px 40px 20px;
     font-family: sans-serif;
+    border-top: 1px solid #D4AF37;
 }
 
 .footer-wrapper {
@@ -747,6 +1329,7 @@ body {
     font-weight: 800;
     margin-bottom: 35px;
     letter-spacing: 1px;
+    color: #D4AF37;
 }
 
 .footer-details p {
@@ -766,7 +1349,7 @@ body {
 .icon-link {
     width: 48px;
     height: 48px;
-    background-color: #d4a017;
+    background-color: #D4AF37;
     color: #000;
     display: flex;
     justify-content: center;
@@ -787,7 +1370,8 @@ body {
     flex: 1.2;
     border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 10px 40px rgba(212, 175, 55, 0.1);
+    border: 1px solid #D4AF37;
 }
 
 .footer-map iframe {
@@ -801,7 +1385,6 @@ body {
     margin: 0px auto 0;
     padding: 30px 0px;
     background: #000;
-    /* O'sha videodagi nozik chiziq */
     text-align: center;
 }
 
@@ -819,8 +1402,9 @@ body {
 }
 
 .made-on-link:hover {
-    transform: scaleX (1.1);
+    transform: scaleX(1.1);
     opacity: 1;
+    color: #D4AF37;
 }
 
 /* Uz Global uchun maxsus logotip doirasi */
@@ -830,8 +1414,7 @@ body {
     align-items: center;
     width: 35px;
     height: 35px;
-    border: 2px solid #d4a017;
-    /* Oltin rangli doira */
+    border: 2px solid #D4AF37;
     border-radius: 50%;
     font-weight: 900;
     font-size: 12px;
@@ -858,18 +1441,14 @@ body {
         justify-content: space-between;
         padding: 0 15px;
         height: 30px;
-        background-color: rgba(0, 0, 0, 0.85);
-        /* Biroz shaffof qora */
+        background-color: rgba(0, 0, 0, 0.95);
         backdrop-filter: blur(10px);
-        /* Xiralashish (blur) effekti */
-        backdrop-filter: blur(1px);
         overflow: hidden;
-        /* Scroll chiqib ketishini oldini oladi */
+        border-bottom: 1px solid #D4AF37;
     }
 
     .navbar {
         justify-content: space-between;
-        /* Logo chapga, Menu o'ngga */
         padding: 0 20px;
         height: 7vh;
     }
@@ -880,14 +1459,15 @@ body {
 
     .navbar img {
         margin: 0;
-        height: 8vh;
-        width: 65px;
+        height: 12vh;
+        width: 90px;
     }
 
     .burger-menu {
         display: block;
         font-size: 30px;
-        color: white;
+        color: #D4AF37;
+        /* Burger menyu oltin */
         cursor: pointer;
     }
 
@@ -897,28 +1477,26 @@ body {
     display: flex;
     align-items: center;
     gap: 15px;
-    /* Burger va Search orasidagi masofa */
 }
 
 .search-container {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    /* Ichidagilarni o'ngga taqaydi */
-    background: #333;
+    background: #1a1a1a;
     border-radius: 25px;
     height: 40px;
     width: 40px;
-    /* Dastlab yopiq holat */
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
+    border: 1px solid #333;
 }
 
 /* Faollashganda chapga qarab yoyiladi */
 .search-container.active {
     width: 200px;
-    /* Burgerga tegmaydigan darajada kenglik */
-    background: #444;
+    background: #111;
+    border-color: #D4AF37;
 }
 
 #searchnavInput {
@@ -940,23 +1518,20 @@ body {
 .search-btn {
     background: none;
     border: none;
-    color: #ffa600;
-    /* Skrinshotdagi orange rang */
+    color: #D4AF37;
     font-size: 18px;
     cursor: pointer;
     min-width: 40px;
-    /* Tugma joyi o'zgarmasligi uchun */
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .burger-menu {
-    color: white;
+    color: #D4AF37;
     font-size: 24px;
     cursor: pointer;
     flex-shrink: 0;
-    /* Burger qisqarib ketmasligi shart */
 }
 
 @media (max-width: 768px) {
@@ -980,15 +1555,15 @@ body {
     .home {
         height: 75vh;
         padding-top: 360px;
-        /* Soat rasmi uzunroq ko'rinishi uchun */
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
+        background-color: #000000;
     }
 
     .hometext {
-        color: #ffa600;
+        color: #D4AF37;
         font-size: 26px;
         padding: 50px 20px 0px 20px;
         font-weight: 600;
@@ -1000,8 +1575,8 @@ body {
         letter-spacing: 1px;
         width: 130px;
         height: 55px;
-        background-color: #ffa600;
-        color: white;
+        background-color: #D4AF37;
+        color: #000000;
         font-size: 13px;
         margin-top: 30px;
         font-weight: 700;
@@ -1011,7 +1586,7 @@ body {
     }
 
     .home-btn a {
-        color: white;
+        color: #000000;
         text-decoration: none;
     }
 }
@@ -1022,144 +1597,141 @@ body {
     .product-filter {
         gap: 10px;
         padding: 0 10px;
+        background-color: #000;
     }
 
     .filter-link {
         font-size: 11px;
-        /* 4 tasi sig'adigan darajada kichik */
         padding-bottom: 5px;
+        color: #D4AF37;
     }
 
-    /* 1. PRICE CONTAINER: Butun ekran enini egallaydi */
-    .price-container {
+    /* 1. PRICE CONTAINER */
+    /* .price-container {
         width: 100% !important;
-        /* 50% ni 100% ga o'zgartirdik */
         display: flex;
         justify-content: space-between;
-        /* Narx chapda, Search o'ngda */
         align-items: center;
         padding: 10px 15px;
         position: relative;
-        /* Ichidagi dropdownlar uchun tayanch */
         border: none;
         margin-left: -18px;
-    }
+        background-color: #000;
+    } */
 
-    /* Narx tugmasi: Chap tomonga tekislash */
+    /* Narx tugmasi */
     .filter-left-group {
         display: flex;
         flex-direction: column;
-        /* "Найдено" pastga tushishi uchun */
         align-items: flex-start;
     }
 
-    .dropdown-btn {
+    /* .dropdown-btn {
         border: none;
         background: none;
         padding: 0;
         font-weight: 600;
         font-size: 16px;
-        color: #000;
+        color: #D4AF37;
         cursor: pointer;
-    }
+    } */
 
-    /* 2. DROPDOWN (Narx ochilganda) */
-    .dropdown-content {
+    /* 2. DROPDOWN */
+    /* .dropdown-content {
         top: 55px;
         margin-left: -30px;
         display: none;
-    }
+        background-color: #1a1a1a;
+        border: 1px solid #D4AF37;
+    } */
 
-    .dropdown-content input {
+    /* .dropdown-content input {
         width: 120px;
         padding: 10px;
-        border: 1px solid;
+        border: 1px solid #D4AF37;
         border-radius: 8px;
-    }
+        background-color: #000;
+        color: #D4AF37;
+    } */
 
-    /* 3. SEARCH WRAPPER: O'ng tomonga qisish */
+    /* 3. SEARCH WRAPPER */
     .search-wrapper {
+        margin-left: -50px;
         position: relative;
         display: flex;
+        flex-direction: column;
         align-items: center;
-        justify-content: flex-end;
+        justify-content: flex-start;
     }
 
-    .mobile-search-icon {
+    /* .mobile-search-icon {
         cursor: pointer;
         display: flex;
         align-items: center;
     }
 
     .mobile-search-icon ion-icon {
-        margin-right: -15px;
-        margin-top: -35px;
+        margin-left: 15px;
+        margin-top: -150px;
         font-size: 35px;
-        /* Ikonka kattaligi */
-        color: #333;
-    }
+        color: #D4AF37;
+    } */
 
     #searchInput {
-        display: none;
-        /* Boshida yashirin */
-        position: absolute;
-        top: 50px;
-        /* Ikonkadan pastroqda chiqishi uchun */
+        opacity: 1;
+        display: block;
+        position: relative;
+        margin-top: -50px;
         right: 0;
         width: 280px;
-        /* Mobil ekran uchun qulay kenglik */
-        background: white;
+        background: #1a1a1a;
         padding: 12px 15px;
-        border: 2px solid #ffa600;
+        border: 2px solid #D4AF37;
         border-radius: 10px;
-        z-index: 1001;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-        color: black;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        color: #D4AF37;
     }
 
-    /* Klas qo'shilganda ko'rsatish */
-    #searchInput.show-search {
-        display: block !important;
-    }
-
-    /* 4. FOUND TEXT: Eng ostida turadi */
+    /* 4. FOUND TEXT */
     .found-text {
-        font-size: 13px;
-        color: #666;
-        margin-top: 5px;
-        margin-left: 0;
+        font-size: 14px;
+        color: #888;
+        margin-top: 20px;
+        margin-left: -120px;
     }
 }
 
 @media (max-width: 768px) {
 
-    /* 1. Gridni sening kodingdek saqlaymiz */
     .product-grid {
+        /* Bir qatorda bitta mahsulot chiqishi uchun 1fr ga o'zgartirildi */
         display: grid !important;
-        grid-template-columns: 1fr 1fr !important;
-        gap: 15px !important;
-        padding: 0 10px 30px !important;
+        grid-template-columns: 1fr !important;
+        gap: 35px !important;
+        /* Bir qatorlik dizaynda masofa biroz kattaroq yaxshi ko'rinadi */
+        padding: 0 20px 30px !important;
+        /* Yon taraflardan masofa biroz ko'paytirildi */
+        background-color: #000;
     }
 
     .product-image {
         height: auto;
         aspect-ratio: 1 / 1;
-        /* Kvadrat */
         border-radius: 15px;
+        border: 1px solid #222;
+        width: 100%;
+        /* Rasm to'liq kenglikni egallaydi */
     }
 
-    /* 2. Swiper konteyneri sening .product-image stilida */
     .product-image.swiper {
         width: 100% !important;
         height: auto !important;
         aspect-ratio: 1 / 1 !important;
-        /* Kvadrat shakli saqlanadi */
         border-radius: 15px !important;
         overflow: hidden !important;
         position: relative !important;
     }
 
-    /* Rasmlar Swiper ichida to'liq kvadratni egallashi uchun */
     .product-image .swiper-slide {
         width: 100% !important;
         height: 100% !important;
@@ -1171,62 +1743,78 @@ body {
         object-fit: cover !important;
     }
 
-    /* Swiper tugmalarini mobil uchun kichraytirish */
     .product-image .swiper-button-next,
     .product-image .swiper-button-prev {
-        transform: scale(0.4) !important;
+        transform: scale(0.6) !important;
+        /* Bir qatorlikda rasm kattalashgani uchun tugmani biroz kattalashtirdik */
         width: 40px !important;
+        color: #D4AF37 !important;
     }
 
     .product-name {
-        font-size: 13px;
-        line-height: 1.2;
-        margin-top: 10px;
+        font-size: 16px;
+        /* Katta kartaga mos ravishda shrift biroz kattalashtirildi */
+        line-height: 1.3;
+        margin-top: 15px;
+        color: #ffffff;
+        text-align: center;
+        /* Premium ko'rinish uchun markazga olindi */
     }
 
     .product-buttons {
-        flex-direction: flex;
+        display: flex !important;
+        /* Xatolik tuzatildi: flex-direction: flex emas, display: flex bo'lishi kerak */
         flex-direction: column;
-        gap: 10px;
+        gap: 12px;
         align-items: stretch;
+        margin-top: 15px;
     }
 
-
-    /* Sening boshqa tugmalaring (BATAFSIL/BUYURTMA) */
     .btn-more {
-        height: 45px !important;
-        font-size: 14px;
+        height: 50px !important;
+        /* Katta dizaynga mos balandlik */
+        font-size: 15px;
+        border: 1px solid #D4AF37 !important;
+        color: #D4AF37 !important;
+        background: transparent;
+        font-weight: 600;
     }
 
     .btn-order {
-        height: 65px !important;
-        background-color: #f2f2f2;
+        height: 60px !important;
+        /* Katta dizaynga mos balandlik */
+        background-color: #D4AF37 !important;
+        color: #000 !important;
+        font-weight: 700;
+        font-size: 16px;
     }
 }
 
 @media (max-width: 768px) {
-    .video-grid {
+    /* .video-grid {
         grid-template-columns: 1fr;
-        /* 1 ta ustun */
         padding: 20px;
-    }
+        background-color: #000;
+    } */
 
     .footer-wrapper {
         flex-direction: column;
-        /* Tepada matn, pastda karta */
         align-items: center;
         text-align: center;
         gap: 30px;
+        background-color: #000;
     }
 
     .footer-title {
         font-family: sans-serif;
         font-size: 24px;
+        color: #D4AF37;
     }
 
     .footer-details p {
         justify-content: start;
         font-size: 20px;
+        color: #ffffff;
     }
 
     .social-icons {
@@ -1236,12 +1824,15 @@ body {
     .footer-map {
         width: 100%;
         height: 300px;
+        border: 1px solid #D4AF37;
     }
 
     /* Savatcha paneli mobilga moslashishi */
     .cart-panel {
         width: 100%;
         right: -100%;
+        background-color: #111;
+        color: #D4AF37;
     }
 }
 
@@ -1255,25 +1846,20 @@ body {
     .mobile-sidebar {
         position: fixed;
         height: 100vh;
-        color: #333;
+        color: #D4AF37;
         position: fixed;
         top: 0;
         left: -75%;
-        /* Boshida ekrandan tashqarida (o'ngda) turadi */
         right: auto;
         width: 75%;
-        /* Sen aytgan 75% width */
         height: 100vh;
-        /* 100% height */
-        background-color: #ffffff;
-       z-index: 10001;
+        background-color: #000000;
+        z-index: 10001;
         transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        /* Silliq chiqib kelish */
         display: flex;
         flex-direction: column;
         padding: 20px;
-        box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
-        ;
+        box-shadow: 5px 0 15px rgba(212, 175, 55, 0.2);
     }
 
     /* Menyu ochilgandagi holat */
@@ -1287,27 +1873,27 @@ body {
         display: flex;
         justify-content: flex-end;
         cursor: pointer;
-        color: #333;
+        color: #D4AF37;
         margin-bottom: 30px;
     }
 
     /* Linklar ro'yxati */
     .sidebar-links {
-        color: #1a1a1a !important;
+        color: #D4AF37 !important;
         list-style: none;
         padding: 0;
     }
 
     .sidebar-links li {
-        color: #1a1a1a !important;
+        color: #D4AF37 !important;
         margin-bottom: 25px;
-        border-bottom: 1px solid #eee;
+        border-bottom: 1px solid #222;
         padding-bottom: 10px;
     }
 
     .sidebar-links li a {
         text-decoration: none;
-        color: #1a1a1a !important;
+        color: #D4AF37 !important;
         font-size: 18px;
         font-weight: 500;
         display: block;
@@ -1316,7 +1902,6 @@ body {
     /* Admin Tugmasi (Pastki qismda) */
     .sidebar-footer {
         margin-top: auto;
-        /* Eng pastga suradi */
         padding-bottom: 30px;
     }
 
@@ -1326,8 +1911,8 @@ body {
         align-items: center;
         justify-content: center;
         gap: 10px;
-        background-color: #333;
-        color: white;
+        background-color: #D4AF37;
+        color: #000;
         text-decoration: none;
         padding: 15px;
         border-radius: 10px;
@@ -1336,19 +1921,18 @@ body {
     }
 
     .admin-login-btn:active {
-        background-color: #ffa600;
+        background-color: #ffffff;
     }
 
     /* Orqa fonni qoraytirish (Overlay) */
-    .menu-overlay { 
+    .menu-overlay {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.5);
+        background: rgba(0, 0, 0, 0.8);
         display: none;
-        /* Boshida ko'rinmaydi */
         z-index: 10000;
         backdrop-filter: blur(3px);
     }
@@ -1359,7 +1943,7 @@ body {
 
     @media (max-width: 768px) {
 
-        /* 1. Desktop menyularini yashirish (chunki ular sidebar ichida bor) */
+        /* 1. Desktop menyularini yashirish */
         .navbar .chap,
         .navbar .ong {
             display: none !important;
@@ -1369,25 +1953,24 @@ body {
         .burger-menu {
             display: block !important;
             cursor: pointer;
+            color: #D4AF37 !important;
         }
 
         /* 3. Sidebar ichidagi linklar uchun qat'iy ranglar */
         .sidebar-links {
             display: block !important;
-            /* Yashirin bo'lsa ochadi */
             opacity: 1 !important;
             visibility: visible !important;
         }
 
         .sidebar-links li a {
-            color: #1a1a1a !important;
-            /* To'q qora rang */
+            color: #D4AF37 !important;
             font-size: 18px !important;
             display: block !important;
             padding: 10px 0 !important;
         }
 
-        /* 4. Sidebar Header (Yopish tugmasi ko'rinishi uchun) */
+        /* 4. Sidebar Header */
         .sidebar-header {
             width: 100%;
             display: flex;
@@ -1395,16 +1978,22 @@ body {
         }
 
         .close-btn ion-icon {
-            color: #333 !important;
+            color: #D4AF37 !important;
             font-size: 35px;
         }
     }
 
 }
 
-/* Mobil versiya uchun (768px dan kichik ekranlarda) */
+/* Mobil versiya uchun */
 @media (max-width: 768px) {
     .main-btn {
         display: none !important;
+    }
+}
+
+@media (min-width:768px) {
+    .nav-right-group {
+        display: none;
     }
 }

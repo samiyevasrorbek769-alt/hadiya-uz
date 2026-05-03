@@ -33,7 +33,7 @@ async function getProductDetails() {
 
         // Ma'lumotlarni HTML ga joylash
         document.getElementById('pName').innerText = product.name;
-        document.getElementById('pPrice').innerText = Number(product.price).toLocaleString() + " UZS";
+        document.getElementById('pPrice').innerText = Number(product.price).toLocaleString() + " so'm";
         document.getElementById('pDesc').innerText = product.description || "Tavsif yo'q";
 
         // Galereyani shakllantirish
@@ -195,7 +195,7 @@ async function loadMoreProducts(excludeId) {
                 </div>
                 <div class="product-info">
                     <div class="product-name">${p.name}</div>
-                    <div class="product-price">${Number(p.price).toLocaleString()} UZS</div>
+                    <div class="product-price">${Number(p.price).toLocaleString()} so'm</div>
                     <button class="btn-more" onclick="window.location.href='pages.html?id=${p.id}'">BATAFSIL</button>
                 </div>
             </div>

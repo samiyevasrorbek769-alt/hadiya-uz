@@ -67,7 +67,7 @@ function displayProducts(products, page = 1) {
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">${p.name}</h3>
-                    <p class="product-price">${Number(p.price).toLocaleString()} UZS</p>
+                    <p class="product-price">${Number(p.price).toLocaleString()} so'm</p>
                     <div class="product-buttons">
                         <button class="btn-more" onclick="window.location.href='pages/pages.html?id=${p.id}'">BATAFSIL</button>
                         <button class="btn-order" onclick="addToCart(${p.id})">BUYURTMA BERISH</button>
@@ -303,12 +303,12 @@ function renderCartItems() {
                     </div>
                 </div>
                 <div style="text-align:right">
-                    <p style="font-weight:bold; font-size:14px; margin:0;">${(item.price * item.qty).toLocaleString()} UZS</p>
+                    <p style="font-weight:bold; font-size:14px; margin:0;">${(item.price * item.qty).toLocaleString()} so'm</p>
                     <span onclick="removeFromCart(${index})" style="color:red; cursor:pointer; font-size:11px;">O'chirish</span>
                 </div>
             </div>`;
     });
-    if (totalDisplay) totalDisplay.innerText = total.toLocaleString() + " UZS";
+    if (totalDisplay) totalDisplay.innerText = total.toLocaleString() + " so'm";
     updateCartBadge();
 }
 

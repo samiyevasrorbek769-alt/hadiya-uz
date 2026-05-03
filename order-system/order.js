@@ -42,7 +42,7 @@ function openOrderModal(product) {
 
         // Narxni formatlash (bo'shliqlarni olib tashlab raqamga o'girish)
         const cleanPrice = Number(String(product.price).replace(/\s/g, ''));
-        modalPriceDisplay.innerText = cleanPrice.toLocaleString() + " UZS";
+        modalPriceDisplay.innerText = cleanPrice.toLocaleString() + " so'm";
 
         // Miqdorni 1 ga qaytarib qo'yish
         if (orderQtySpan) orderQtySpan.innerText = currentOrderQty;
@@ -77,8 +77,8 @@ function openOrderModalFromCart() {
         return sum + (itemPrice * (item.qty || 1));
     }, 0);
 
-    modalPriceDisplay.innerText = total.toLocaleString() + " UZS";
-    if (finalPriceElement) finalPriceElement.innerText = total.toLocaleString() + " UZS";
+    modalPriceDisplay.innerText = total.toLocaleString() + " so'm";
+    if (finalPriceElement) finalPriceElement.innerText = total.toLocaleString() + " so'm";
 
     document.getElementById('orderQtyWrapper').style.display = 'none'; // Savatchada miqdor modalda boshqarilmaydi
     modal.style.display = 'flex';
@@ -112,7 +112,7 @@ function updateOrderTotal() {
     if (currentOrderProduct && finalPriceElement) {
         const cleanPrice = Number(String(currentOrderProduct.price).replace(/\s/g, ''));
         const total = cleanPrice * currentOrderQty;
-        finalPriceElement.innerText = total.toLocaleString() + " UZS";
+        finalPriceElement.innerText = total.toLocaleString() + " so'm";
     }
 }
 
@@ -143,7 +143,7 @@ async function sendToTelegram(order) {
 <b>──────────────────</b>
 <b>⌚ Mahsulotlar:</b>
 ${order.product_name}
-<b>💰 Jami:</b> ${order.total_price.toLocaleString()} UZS
+<b>💰 Jami:</b> ${order.total_price.toLocaleString()} so'm
 <b>──────────────────</b>
 <b>🕒 Vaqt:</b> ${new Date().toLocaleString('uz-UZ')}
     `;

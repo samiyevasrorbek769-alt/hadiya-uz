@@ -196,7 +196,7 @@ function renderAdminProducts(list) {
                 <img src="${img}" class="admin-item-img">
                 <div class="admin-item-info">
                     <strong>${p.name}</strong>
-                    <small>${p.category} | ${Number(p.price).toLocaleString()} UZS</small>
+                    <small>${p.category} | ${Number(p.price).toLocaleString()} so'm</small>
                 </div>
                 <div class="admin-item-actions">
                     <button class="edit-btn" onclick="fillFormForEdit(${p.id})"><i class="fas fa-edit"></i></button>

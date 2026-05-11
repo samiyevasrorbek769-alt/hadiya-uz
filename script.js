@@ -495,7 +495,7 @@ async function loadMobileHero() {
                 mobileHeroContainer.innerHTML = `
                     <div class="home" style="background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('${heroImageUrl}') center/cover no-repeat;">
                         <h1 class="hometext">${data.name}</h1>
-                        <button class="home-btn" onclick="window.location.href='pages/pages.html?id=${data.id}&type=hero'">
+                        <button class="home-btn" onclick="document.getElementById('container cta-wrapper').scrollIntoView({behavior: 'smooth'})">
                             BATAFSIL
                         </button>
                     </div>
